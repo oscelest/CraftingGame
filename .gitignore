@@ -3,6 +3,7 @@ renderer/**/*.js
 renderer/**/*.jsx
 renderer/.next
 renderer/out
+!renderer/next.config.js
 
 .idea
 node_modules
