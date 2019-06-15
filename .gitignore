@@ -1,0 +1,10 @@
+main/**/*.js
+renderer/**/*.js
+renderer/**/*.jsx
+renderer/.next
+renderer/out
+
+node_modules
+dist
+
+package-lock.json
