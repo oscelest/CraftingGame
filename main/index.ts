@@ -1,16 +1,16 @@
-import * as electron from "electron";
+import * as Electron from "electron";
 import * as electronIsDev from "electron-is-dev";
 import * as electronNext from "electron-next";
 import * as path from "path";
 import * as url from "url";
 
 // Prepare the renderer once the app is ready
-electron.app.on("ready", async () => {
+Electron.app.on("ready", async () => {
   // await electronNext(path.resolve(__dirname, "../renderer"));
   await electronNext("./renderer");
   
-  const mainWindow = new electron.BrowserWindow({
-    width:          800,
+  const mainWindow = new Electron.BrowserWindow({
+    width:          1200,
     height:         600,
     webPreferences: {
       nodeIntegration: false,
@@ -25,12 +25,14 @@ electron.app.on("ready", async () => {
       protocol: "file:",
       slashes:  true,
     }));
+  
+  
 });
 
 // Quit the app once all windows are closed
-electron.app.on("window-all-closed", electron.app.quit);
+Electron.app.on("window-all-closed", Electron.app.quit);
 
 // listen the channel `message` and resend the received message to the renderer process
-// ipcMain.on("message", (event, message) => {
-//   event.sender.send("message", message);
-// });
+Electron.ipcMain.on("message", (event, message) => {
+  event.sender.send("message", message);
+});

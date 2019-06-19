@@ -1,22 +1,48 @@
-import react from "react";
+import React from "react";
+import Electron from "electron";
 
-export default class IndexPage extends react.Component {
+export default class IndexPage extends React.Component<Props, State> {
   
   public componentDidMount() {
     // start listening the channel message
-    // global.ipcRenderer.on("message", this.handleMessage);
+    global.ipc.on("message", (event: any, message: any) => {
+      console.log("event", event);
+      console.log("message", message);
+    });
+    
+    global.ipc.send("message", "test");
+    
   }
   
   public componentWillUnmount() {
     // stop listening the channel message
-    // global.ipcRenderer.removeListener("message", this.handleMessage);
+    // global.ipc.removeListener("message", () => {
+    //   console.log("message")
+    // });
   }
   
   public render() {
     return (
       <div>
         <h1>Hello Electron!</h1>
+        <h2>Test 123!</h2>
       </div>
     );
+  }
+}
+
+interface Props {
+
+}
+
+interface State {
+
+}
+
+declare global {
+  namespace NodeJS {
+    interface Global {
+      ipc: Electron.IpcRenderer
+    }
   }
 }

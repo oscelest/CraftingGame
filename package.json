@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "main": "main/index.js",
   "scripts": {
-    "build-main": "tsc -p ./main/tsconfig.json",
-    "build-renderer": "tsc -p ./renderer/tsconfig.json",
+    "build-main": "tsc -p ./main/tsconfig.json -watch",
+    "build-renderer": "tsc -p ./renderer/tsconfig.json -watch",
     "start": "electron .",
     "build": "next build renderer && next export renderer",
     "dist": "npm run build && build --dir"
@@ -20,14 +20,17 @@
     ]
   },
   "devDependencies": {
-    "cpx": "^1.5.0",
+    "@babel/core": "7.1.2",
+    "@babel/preset-typescript": "^7.3.3",
+    "@types/react": "^16.8.20",
+    "@types/react-dom": "^16.0.11",
+    "@zeit/next-typescript": "^1.1.1",
     "electron": "^5.0.3",
     "electron-builder": "^20.39.0",
     "next": "^8.1.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
-    "typescript": "^3.5.1",
-    "@types/react": "^16.8.20"
+    "typescript": "^3.5.1"
   },
   "dependencies": {
     "electron-is-dev": "^1.0.1",
