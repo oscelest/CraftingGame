@@ -1,5 +1,6 @@
 import React from "react";
 import Electron from "electron";
+import Layout from "../components/Layout";
 
 export default class IndexPage extends React.Component<Props, State> {
   
@@ -23,10 +24,10 @@ export default class IndexPage extends React.Component<Props, State> {
   
   public render() {
     return (
-      <div>
+      <Layout>
         <h1>Hello Electron!</h1>
-        <h2>Test 123!</h2>
-      </div>
+        <h2>Test!</h2>
+      </Layout>
     );
   }
 }
