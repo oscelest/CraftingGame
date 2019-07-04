@@ -1,38 +1,17 @@
 import React from "react";
-import Electron from "electron";
-import Layout from "../components/Layout";
+import {GlobalProps} from "./_app";
 
 export default class IndexPage extends React.Component<Props, State> {
   
-  public componentDidMount() {
-    // start listening the channel message
-    global.ipc.on("message", (event: any, message: any) => {
-      console.log("event", event);
-      console.log("message", message);
-    });
-    
-    global.ipc.send("message", "test");
-    
-  }
-  
-  public componentWillUnmount() {
-    // stop listening the channel message
-    // global.ipc.removeListener("message", () => {
-    //   console.log("message")
-    // });
-  }
-  
   public render() {
-    return (
-      <Layout>
-        <h1>Hello Electron!</h1>
-        <h2>Test!</h2>
-      </Layout>
-    );
+    return [
+      <h1 key={0}>Hello Electron!</h1>,
+      <h2 key={1}>Test!</h2>,
+    ];
   }
 }
 
-interface Props {
+interface Props extends GlobalProps {
 
 }
 
@@ -40,10 +19,10 @@ interface State {
 
 }
 
-declare global {
-  namespace NodeJS {
-    interface Global {
-      ipc: Electron.IpcRenderer
-    }
-  }
-}
+// declare global {
+//   namespace NodeJS {
+//     interface Global {
+//       ipc: Electron.IpcRenderer
+//     }
+//   }
+// }
