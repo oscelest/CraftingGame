@@ -1,17 +1,14 @@
-import {IPC} from "../../typings/IPC";
+import IPC from "../../typings/IPC";
 
-const Methods: IPC.WindowRendererMethods = {
-  minimize(this: any, flag_minimized: boolean): void {
-    console.log(this);
-    this.setState(Object.assign(this.state, {flag_minimized: flag_minimized}))
+const Methods: IPC.Frontend.Handlers["window"] = {
+  minimize(flag_minimized: boolean): void {
+    this.setState(Object.assign({}, this.state, {flag_minimized: flag_minimized}))
   },
-  maximize(this: any, flag_maximized: boolean): void {
-    console.log(this);
-    this.setState(Object.assign(this.state, {flag_maximized: flag_maximized}))
+  maximize(flag_maximized: boolean): void {
+    this.setState(Object.assign({}, this.state, {flag_maximized: flag_maximized}))
   },
-  restore(this: any, flag_maximized: boolean): void {
-    console.log(this);
-    this.setState(Object.assign(this.state, {flag_maximized: flag_maximized}))
+  restore(flag_maximized: boolean): void {
+    this.setState(Object.assign({}, this.state, {flag_maximized: flag_maximized}))
   },
 };
 

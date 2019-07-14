@@ -2,10 +2,11 @@
   "compilerOptions": {
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
-    "alwaysStrict": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
+    "jsx": "preserve",
+    "strictPropertyInitialization": false,
     "lib": [
       "dom",
       "es2017"
@@ -14,9 +15,9 @@
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "resolveJsonModule": true,
-    "target": "esnext"
+    "target": "esnext",
+    "strict": true
   },
   "include": [
     "**/*.ts"

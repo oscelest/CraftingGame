@@ -1,7 +1,8 @@
 import Head from "next/head";
 import * as React from "react";
+import {Global} from "../../typings/Global";
 import "./Layout.less";
-import {GlobalProps} from "../pages/_app";
+import Navigation from "./Navigation";
 
 class Layout extends React.Component<Props, State> {
   
@@ -38,11 +39,17 @@ class Layout extends React.Component<Props, State> {
       <Head key="head">
         <title>My page title</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width"/>
+        <style> {`
+          @font-face {font-family: Raleway; src: url(../static/fonts/Raleway-Regular.ttf);}
+          @font-face {font-family: Raleway; src: url(../static/fonts/Raleway-Italic.ttf); font-style: italic;}
+          @font-face {font-family: Raleway; src: url(../static/fonts/Raleway-Italic.ttf); font-weight: bold; font-style: italic;}
+          @font-face {font-family: Raleway; src: url(../static/fonts/Raleway-Italic.ttf); font-weight: bold; font-style: italic;}
+          @font-face {font-family: PoiretOne; src: url(../static/fonts/PoiretOne-Regular.ttf);}
+        `}
+        </style>
       </Head>,
       <div id="title-bar" key="title-bar">
-        <div id="window-title">
-          <span>Pictologue</span>
-        </div>
+        <div id="window-title">Pictologue</div>
         <div id="window-controls">
           <button className="minimize" onClick={this.clickWindowMinimize}>🗕</button>
           {
@@ -53,23 +60,18 @@ class Layout extends React.Component<Props, State> {
           <button className="close" onClick={this.clickWindowClose}>✖</button>
         </div>
       </div>,
-      <header id="header" key="header">
-        <span>I am a header</span>
-      </header>,
+      <header id="header" key="header"/>,
       <main id="main" key="main">
+        <Navigation key="navigation" global={this.props.global}/>
         {this.props.children}
       </main>,
-      <footer id="footer" key="footer">
-        <hr/>
-        I am a footer!
-      </footer>,
+      <footer id="footer" key="footer"/>,
     ];
   }
   
 }
 
-interface Props extends GlobalProps {
-  title?: string
+interface Props extends Global.Props {
 }
 
 interface State {

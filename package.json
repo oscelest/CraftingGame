@@ -1,13 +1,14 @@
 {
   "name": "pictologue",
+  "productName": "Pictologue",
   "version": "1.0.0",
+  "description": "An electron based tool for cataloguing local image files with tags.",
   "main": "main/index.js",
   "scripts": {
     "build-main": "tsc -p ./main/tsconfig.json -watch",
-    "build-renderer": "tsc -p ./renderer/tsconfig.json -watch",
+    "build-renderer": "next build renderer && next export renderer",
     "start": "electron .",
-    "build": "next build renderer && next export renderer",
-    "dist": "npm run build && build --dir"
+    "dist": "npm run build-renderer && build --dir"
   },
   "build": {
     "asar": false,
@@ -19,21 +20,30 @@
     ]
   },
   "devDependencies": {
-    "@types/react": "^16.8.22",
+    "@types/lodash": "^4.14.136",
+    "@types/react": "^16.8.23",
     "@types/react-dom": "^16.0.11",
+    "@zeit/next-less": "^1.0.1",
     "electron": "^5.0.6",
-    "electron-builder": "^20.44.4",
-    "next": "^8.1.1-canary.64",
+    "electron-builder": "^21.0.15",
+    "less": "^3.9.0",
+    "next": "^9.0.1",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
-    "typescript": "^3.5.2"
+    "reflect-metadata": "^0.1.13",
+    "typescript": "^3.5.3"
   },
   "dependencies": {
-    "@types/lodash": "^4.14.135",
-    "@zeit/next-less": "^1.0.1",
+    "@types/file-type": "^10.9.1",
+    "@types/fs-extra": "^8.0.0",
     "electron-is-dev": "^1.0.1",
     "electron-next": "^3.1.5",
-    "less": "^3.9.0",
-    "lodash": "^4.17.11"
+    "file-loader": "^4.0.0",
+    "file-type": "^12.0.1",
+    "fs-extra": "^8.1.0",
+    "lodash": "^4.17.14",
+    "sqlite3": "^4.0.9",
+    "typeorm": "^0.2.18",
+    "url-loader": "^2.0.1"
   }
 }

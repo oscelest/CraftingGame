@@ -1,0 +1,110 @@
+.folder-list {
+  flex: 1 1 auto;
+  flex-flow: column;
+  overflow: hidden;
+
+  .controls {
+    flex: 0 0 auto;
+    justify-content: space-between;
+    padding: 0 5px;
+
+    button {
+      background: none;
+      padding: 0;
+      border: 0;
+      height: 35px;
+      width: 35px;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      outline: none;
+      -webkit-user-select: none;
+
+      &.refresh {
+        font-size: 20px;
+      }
+
+      &.import {
+        font-size: 24px;
+
+        &:before {
+          content: "+";
+          position: absolute;
+          color: green;
+          right: 0;
+          top: -8px;
+          font-size: 32px;
+          text-shadow: 0 1px 2px black, 0 -1px 2px black, 1px 0 2px black, -1px 0 2px black;
+        }
+      }
+    }
+  }
+
+  .folders {
+    flex: 1 1 auto;
+    flex-flow: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    .folder {
+      margin: 0 10px;
+      color: white;
+      height: 30px;
+      align-items: center;
+
+      .name {
+        flex: 1 0 auto;
+        font-size: 14px;
+        color: white;
+        cursor: pointer;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      button {
+        background: none;
+        padding: 0;
+        border: 0;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        outline: none;
+        line-height: 20px;
+        -webkit-user-select: none;
+
+        &.delete {
+          font-size: 16px;
+        }
+
+        &.open {
+          font-size: 20px;
+
+          &:before {
+            content: "\21AA";
+            position: absolute;
+            font-weight: bold;
+            color: green;
+            right: 0px;
+            top: -2px;
+            font-size: 16px;
+            transform: rotate(270deg);
+            text-shadow: 0 1px 2px black, 0 -1px 2px black, 1px 0 2px black, -1px 0 2px black;
+          }
+        }
+      }
+    }
+
+    .no-folders {
+      color: rgba(189, 195, 199, .4);
+      flex: 1 0 auto;
+      justify-content: center;
+      font-weight: bold;
+      font-style: italic;
+      margin-top: 10px;
+    }
+  }
+
+}

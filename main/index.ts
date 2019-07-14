@@ -1,23 +1,39 @@
-import * as Electron from "electron";
+import * as electron from "electron";
 import * as electronIsDev from "electron-is-dev";
+// @ts-ignore
 import * as electronNext from "electron-next";
 import * as path from "path";
+import "reflect-metadata";
+import * as typeorm from "typeorm";
 import * as url from "url";
-import {IPC} from "../typings/IPC";
+import IPC from "../typings/IPC";
 
-const ipc = Electron.ipcMain as IPC.Main;
+const ipc = electron.ipcMain as IPC.Backend;
 
-Electron.app.on("ready", async () => {
+electron.app.on("ready", async () => {
   await electronNext("./renderer");
-  const ipc_methods: IPC.MainHandlers = {
+  try {
+    await typeorm.createConnection({
+      type:        "sqlite",
+      database:    path.resolve(electron.app.getPath("userData"), "master.sqlite3"),
+      entities:    [path.resolve(__dirname, "entity", "*.js")],
+      synchronize: true,
+    });
+  }
+  catch (e) {
+    console.log(e);
+  }
+  const ipc_methods: IPC.Backend.Handlers = {
+    file:   (await require("./ipc/file")).default,
+    folder: (await require("./ipc/folder")).default,
     window: (await require("./ipc/window")).default,
-    configuration: (await require("./ipc/configuration")).default
   };
   
-  ipc.on("message", (event, handler, method, params) => {
+  ipc.on("message", async (event, handler, method, params) => {
+    console.log("[Backend] Message received", handler, method, params);
     try {
-      const response = ipc_methods[handler][method].apply(event, params);
-      if (response !== undefined) event.reply(response instanceof Error ? "error" : "message", handler, method, response);
+      const response = await ipc_methods[handler][method].apply(event, params);
+      if (response !== undefined) event.reply("message", handler, method, [response]);
     }
     catch (exception) {
       console.log(exception);
@@ -25,9 +41,11 @@ Electron.app.on("ready", async () => {
     }
   });
   
-  const mainWindow = new Electron.BrowserWindow({
+  const mainWindow = new electron.BrowserWindow({
     width:          1200,
-    height:         600,
+    height:         900,
+    x:              0,
+    y:              0,
     frame:          false,
     webPreferences: {
       nodeIntegration: false,
@@ -39,7 +57,7 @@ Electron.app.on("ready", async () => {
 });
 
 // Quit the app once all windows are closed
-Electron.app.on("window-all-closed", Electron.app.quit);
+electron.app.on("window-all-closed", electron.app.quit);
 
 
 
