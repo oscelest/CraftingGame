@@ -3,7 +3,6 @@ import Link from "next/link";
 import * as React from "react";
 import "./Navigation.less";
 import {Global} from "../../typings/Global";
-import FolderList from "./FolderList";
 
 class Navigation extends React.Component<Props, State> {
   
@@ -30,24 +29,7 @@ class Navigation extends React.Component<Props, State> {
           <button onClick={() => this.clickSetList(this.state.list === "tag" ? null : "tag")}>️🏷️</button>
         </div>
         <div className={_.join(_.filter(["list", this.state.list ? "active" : ""]), " ")}>
-          {
-            this.state.list === "folder" &&
-            <FolderList folders={this.props.global.folders}/>
-          }
         </div>
-        
-        {/*<div className="mode">*/}
-        {/*  <button className={_.join(_.filter(["button", "folder", this.state.flag_view === "folder" ? "active" : ""]), " ")} onClick={() => this.clickSetFlagView("folder")}>Folders</button>*/}
-        {/*  <button className={_.join(_.filter(["button", "tag", this.state.flag_view === "tag" ? "active" : ""]), " ")} onClick={() => this.clickSetFlagView("tag")}>Tags</button>*/}
-        {/*</div>*/}
-        {/*{*/}
-        {/*  this.state.flag_view === "folder" &&*/}
-        {/*  <div className="list folder"/>*/}
-        {/*}*/}
-        {/*{*/}
-        {/*  this.state.flag_view === "tag" &&*/}
-        {/*  <div className="list tag"/>*/}
-        {/*}*/}
       </nav>
     );
   }

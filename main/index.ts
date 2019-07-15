@@ -23,10 +23,9 @@ electron.app.on("ready", async () => {
   catch (e) {
     console.log(e);
   }
+  
   const ipc_methods: IPC.Backend.Handlers = {
-    file:   (await require("./ipc/file")).default,
-    folder: (await require("./ipc/folder")).default,
-    window: (await require("./ipc/window")).default,
+  
   };
   
   ipc.on("message", async (event, handler, method, params) => {

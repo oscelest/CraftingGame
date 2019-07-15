@@ -1,10 +1,8 @@
 import * as TypeORM from "typeorm";
-import File from "./File";
+import WeaponModType from "./WeaponModType";
 
 @TypeORM.Entity()
-@TypeORM.Unique(["name"])
-@TypeORM.Unique(["mime"])
-export default class Extension {
+export default class WeaponMod {
   
   @TypeORM.PrimaryGeneratedColumn("uuid")
   public id: string;
@@ -12,16 +10,13 @@ export default class Extension {
   @TypeORM.Column()
   public name: string;
   
-  @TypeORM.Column()
-  public mime: string;
-  
-  @TypeORM.OneToMany(() => File, image => image.extension)
-  public images: File[];
-  
   @TypeORM.CreateDateColumn()
   public readonly time_created: Date;
   
   @TypeORM.UpdateDateColumn()
   public readonly time_updated: Date;
+  
+  @TypeORM.OneToMany(() => WeaponModType, weapon_mod_type => weapon_mod_type.mods)
+  public mod_type: WeaponModType;
   
 }

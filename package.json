@@ -1,8 +1,9 @@
 {
-  "name": "pictologue",
-  "productName": "Pictologue",
+  "name": "crafting-game",
+  "productName": "Crafting Game",
   "version": "1.0.0",
-  "description": "An electron based tool for cataloguing local image files with tags.",
+  "private": true,
+  "description": "An attempt at making a game.",
   "main": "main/index.js",
   "scripts": {
     "build-main": "tsc -p ./main/tsconfig.json -watch",

@@ -1,9 +1,9 @@
 import * as TypeORM from "typeorm";
-import File from "./File";
+import WeaponMod from "./WeaponMod";
+import WeaponType from "./WeaponType";
 
 @TypeORM.Entity()
-@TypeORM.Unique(["name"])
-export default class Tag {
+export default class Weapon {
   
   @TypeORM.PrimaryGeneratedColumn("uuid")
   public id: string;
@@ -11,14 +11,16 @@ export default class Tag {
   @TypeORM.Column()
   public name: string;
   
-  @TypeORM.ManyToMany(() => File )
-  @TypeORM.JoinTable()
-  public images: File[];
-  
   @TypeORM.CreateDateColumn()
   public readonly time_created: Date;
   
   @TypeORM.UpdateDateColumn()
   public readonly time_updated: Date;
+  
+  @TypeORM.OneToMany(() => WeaponType, item_type => item_type.items)
+  public type: WeaponType;
+  
+  @TypeORM.ManyToMany(() => WeaponMod)
+  public mods: WeaponMod[];
   
 }

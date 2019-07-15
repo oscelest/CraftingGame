@@ -1,5 +1,3 @@
-import Folder from "../main/entity/Folder";
-import File from "../main/entity/File";
 import {Global} from "./Global";
 
 declare namespace IPC {
@@ -30,24 +28,7 @@ declare namespace IPC {
     
     export interface Handlers {
       [key: string]: {[key: string]: any}
-      file: {
-        // find(this: Event, folder_id: string): Promise<File[]>
-        // findUncatalogued(this: Event, folder_id: string, start: number): Promise<File[]>
-      }
-      folder: {
-        open(this: Event, path: string): Promise<void>
-        find(this: Event): Promise<Folder[]>
-        findCataloguedFiles(this: Event, folder_id: string): Promise<File[]>
-        findUncataloguedFiles(this: Event, folder_id: string): Promise<File[]>
-        create(this: Event): Promise<Folder[] | void>
-        remove(this: Event, id: string): Promise<string | void>
-      }
-      window: {
-        minimize(this: Event): void
-        maximize(this: Event): void
-        restore(this: Event): void
-        close(this: Event): void
-      }
+      
     }
     
     export interface Event {
@@ -62,20 +43,6 @@ declare namespace IPC {
   export namespace Frontend {
     export interface Handlers {
       [key: string]: {[key: string]: any}
-      file: {
-        find(this: This, images: File[]): void
-        findUncatalogued(this: This, images: File[]): void
-      }
-      folder: {
-        find(this: This, folders: Folder[]): void
-        create(this: This, folder: Folder[]): void
-        remove(this: This, id: string): void
-      }
-      window: {
-        minimize(this: This, flag_minimized: boolean): void
-        maximize(this: This, flag_maximized: boolean): void
-        restore(this: This, flag_maximized: boolean): void
-      }
     }
     
     export interface Event {

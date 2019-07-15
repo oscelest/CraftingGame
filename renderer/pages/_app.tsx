@@ -15,22 +15,12 @@ class PictologueApp extends App {
     super(props);
     this.state = {
       ready:          false,
-      tags:           {},
-      files:          {
-        catalogued:   {},
-        uncatalogued: {},
-      },
-      folders:        {},
       flag_maximized: false,
     };
   }
   
   public async componentDidMount() {
-    const ipc_methods: IPC.Frontend.Handlers = {
-      file:   (await import("../ipc/file")).default,
-      folder: (await import("../ipc/folder")).default,
-      window: (await import("../ipc/window")).default,
-    };
+    const ipc_methods: IPC.Frontend.Handlers = {};
     
     ipc.on("message", async (event, handler, method, params) => {
       console.log(event, handler, method, params);
