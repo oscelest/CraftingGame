@@ -1,9 +1,9 @@
-main/**/*.js
-renderer/**/*.js
-renderer/**/*.jsx
-renderer/.next
-renderer/out
-!renderer/next.config.js
+backend/**/*.js
+frontend/**/*.js
+frontend/**/*.jsx
+frontend/.next
+frontend/out
+!frontend/next.config.js
 
 .idea
 node_modules

@@ -28,7 +28,9 @@ declare namespace IPC {
     
     export interface Handlers {
       [key: string]: {[key: string]: any}
-      
+      filter: {
+        load(this: IPC.Backend.Event): void
+      }
     }
     
     export interface Event {
@@ -43,6 +45,9 @@ declare namespace IPC {
   export namespace Frontend {
     export interface Handlers {
       [key: string]: {[key: string]: any}
+      filter: {
+        load(): void
+      }
     }
     
     export interface Event {

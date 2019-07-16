@@ -20,7 +20,9 @@ class PictologueApp extends App {
   }
   
   public async componentDidMount() {
-    const ipc_methods: IPC.Frontend.Handlers = {};
+    const ipc_methods: IPC.Frontend.Handlers = {
+      filter: (await import("../ipc/filter")).default,
+    };
     
     ipc.on("message", async (event, handler, method, params) => {
       console.log(event, handler, method, params);

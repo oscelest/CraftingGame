@@ -44,7 +44,6 @@ class Layout extends React.Component<Props, State> {
           @font-face {font-family: Raleway; src: url(../static/fonts/Raleway-Italic.ttf); font-style: italic;}
           @font-face {font-family: Raleway; src: url(../static/fonts/Raleway-Italic.ttf); font-weight: bold; font-style: italic;}
           @font-face {font-family: Raleway; src: url(../static/fonts/Raleway-Italic.ttf); font-weight: bold; font-style: italic;}
-          @font-face {font-family: PoiretOne; src: url(../static/fonts/PoiretOne-Regular.ttf);}
         `}
         </style>
       </Head>,
