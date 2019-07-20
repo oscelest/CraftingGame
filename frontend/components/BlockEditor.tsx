@@ -43,32 +43,33 @@ class BlockEditor extends React.Component<Props, State> {
   
   public render() {
     return (
-      <div className="block">
-        <div className="visibility">
-          <label htmlFor="visibility">Visibility</label>
-          <input type="checkbox" name="visibility" checked={this.state.visibility} onChange={this.changeBlockVisibility}/>
+      <div className={"block-editor"}>
+        {/*<div className="visibility">*/}
+        {/*  <label htmlFor="visibility">Visibility</label>*/}
+        {/*  <input type="checkbox" name="visibility" checked={this.state.visibility} onChange={this.changeBlockVisibility}/>*/}
+        {/*</div>*/}
+        
+        <div className="interval-condition">
+          <span className={"title"}>Drop Level: </span>
+          <div className={"interval"}>
+            <input min={0} max={100} value={this.state.drop_level.gte || ""} onChange={event => this.changeBlockValueNumber("drop_level", "gte", event)} placeholder={"from"}/>
+            <span>-</span>
+            <input min={0} max={100} value={this.state.drop_level.lte || ""} onChange={event => this.changeBlockValueNumber("drop_level", "lte", event)} placeholder={"to"}/>
+          </div>
         </div>
         
-        <div className="drop-level">
-          <span>Drop Level</span>
-          <label htmlFor="drop-level-gte">GTE:</label>
-          <input min={0} max={100} name="drop-level-gte" value={this.state.drop_level.gte || ""} onChange={event => this.changeBlockValueNumber("drop_level", "gte", event)}/>
-          <label htmlFor="drop-level-lte">LTE:</label>
-          <input min={0} max={100} name="drop-level-lte" value={this.state.drop_level.lte || ""} onChange={event => this.changeBlockValueNumber("drop_level", "lte", event)}/>
-        </div>
-        
-        <div className="item-level">
-          <span>Item Level</span>
-          <label htmlFor="item-level-gte">GTE:</label>
-          <input min={0} max={100} name="item-level-gte" value={this.state.item_level.gte || ""} onChange={event => this.changeBlockValueNumber("item_level", "gte", event)}/>
-          <label htmlFor="item-level-lte">LTE:</label>
-          <input min={0} max={100} name="item-level-lte" value={this.state.item_level.lte || ""} onChange={event => this.changeBlockValueNumber("item_level", "lte", event)}/>
-        </div>
-  
-        <div className="quality">
-          <label htmlFor="item-level-gte">GTE:</label>
-          <input min={0} max={100} name="quality" value={this.state.item_level.gte || ""} onChange={event => this.changeBlockValueNumber("item_level", "gte", event)}/>
-        </div>
+        {/*<div className="item-level">*/}
+        {/*  <span>Item Level</span>*/}
+        {/*  <label htmlFor="item-level-gte">GTE:</label>*/}
+        {/*  <input min={0} max={100} name="item-level-gte" value={this.state.item_level.gte || ""} onChange={event => this.changeBlockValueNumber("item_level", "gte", event)}/>*/}
+        {/*  <label htmlFor="item-level-lte">LTE:</label>*/}
+        {/*  <input min={0} max={100} name="item-level-lte" value={this.state.item_level.lte || ""} onChange={event => this.changeBlockValueNumber("item_level", "lte", event)}/>*/}
+        {/*</div>*/}
+        {/**/}
+        {/*<div className="quality">*/}
+        {/*  <label htmlFor="item-level-gte">GTE:</label>*/}
+        {/*  <input min={0} max={100} name="quality" value={this.state.item_level.gte || ""} onChange={event => this.changeBlockValueNumber("item_level", "gte", event)}/>*/}
+        {/*</div>*/}
         
         <button onClick={this.save}>Save</button>
         <button onClick={this.print}>Print</button>
