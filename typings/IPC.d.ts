@@ -29,7 +29,7 @@ declare namespace IPC {
     export interface Handlers {
       [key: string]: {[key: string]: any}
       filter: {
-        load(this: IPC.Backend.Event): void
+        load(this: IPC.Backend.This): void
       }
     }
     
@@ -40,13 +40,17 @@ declare namespace IPC {
       reply: Function
     }
     
+    export interface This extends Event {
+    
+    }
+    
   }
   
   export namespace Frontend {
     export interface Handlers {
       [key: string]: {[key: string]: any}
       filter: {
-        load(): void
+        load(this: IPC.Frontend.This, filter: string): void
       }
     }
     

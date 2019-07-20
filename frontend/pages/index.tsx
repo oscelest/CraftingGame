@@ -1,7 +1,7 @@
 import React from "react";
 import {Global} from "../../typings/Global";
-import ItemFilterList from "../components/ItemFilterList";
-import {ipc} from "./_app";
+import Block from "../classes/Block";
+import BlockEditor from "../components/BlockEditor";
 
 export default class IndexPage extends React.Component<Props, State> {
   
@@ -9,18 +9,17 @@ export default class IndexPage extends React.Component<Props, State> {
     super(props);
   }
   
-  private load() {
-    ipc.send("message", "filter", "load", []);
-  }
+  // private load() {
+  //   ipc.send("message", "filter", "load", []);
+  // }
   
   public render() {
-    const items = {"Vaal Axe": ["Hezmana's Bloodlust", "Atziri's Disfavour"], "Infernal Sword": ["Starforge", "Oro's Sacrifice"], "Stiletto": ["Bloodplay"]};
+    const block = new Block();
+    // const items = {"Vaal Axe": ["Hezmana's Bloodlust", "Atziri's Disfavour"], "Infernal Sword": ["Starforge", "Oro's Sacrifice"], "Stiletto": ["Bloodplay"]};
     
     return (
       <div id="index-page" key="page">
-        <button onClick={this.load}>Load</button>
-        
-        <ItemFilterList items={items}/>
+        <BlockEditor block={block}/>
       </div>
     );
   }

@@ -1,22 +1,22 @@
 {
-  "name": "crafting-game",
-  "productName": "Crafting Game",
+  "name": "item-filter-builder",
+  "productName": "Item Filter Builder",
   "version": "1.0.0",
   "private": true,
   "description": "An attempt at making a game.",
-  "main": "main/index.js",
+  "main": "backend/index.js",
   "scripts": {
-    "build-main": "tsc -p ./main/tsconfig.json -watch",
-    "build-renderer": "next build renderer && next export renderer",
+    "build-backend": "tsc -p ./backend/tsconfig.json -watch",
+    "build-frontend": "next build frontend && next export frontend",
     "start": "electron .",
-    "dist": "npm run build-renderer && build --dir"
+    "dist": "npm run build-frontend && build --dir"
   },
   "build": {
     "asar": false,
     "extraResources": [
       {
-        "from": "renderer/out",
-        "to": "app/renderer"
+        "from": "frontend/out",
+        "to": "app/frontend"
       }
     ]
   },

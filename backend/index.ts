@@ -11,7 +11,7 @@ import IPC from "../typings/IPC";
 const ipc = electron.ipcMain as IPC.Backend;
 
 electron.app.on("ready", async () => {
-  await electronNext("./renderer");
+  await electronNext("./frontend");
   try {
     await typeorm.createConnection({
       type:        "sqlite",
@@ -52,7 +52,7 @@ electron.app.on("ready", async () => {
     },
   });
   
-  await mainWindow.loadURL(electronIsDev ? "http://localhost:8000" : url.format({pathname: path.join(__dirname, "../renderer/index/index.html"), protocol: "file:", slashes: true}));
+  await mainWindow.loadURL(electronIsDev ? "http://localhost:8000" : url.format({pathname: path.join(__dirname, "../frontend/index/index.html"), protocol: "file:", slashes: true}));
 });
 
 // Quit the app once all windows are closed
