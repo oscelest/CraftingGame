@@ -1,7 +1,10 @@
 import _ from "lodash";
 import * as React from "react";
-import Block from "../classes/Block";
+import Block, {BlockIntervalCondition, BlockValueCondition} from "../classes/Block";
 import "./BlockEditor.less";
+import ListIntervalCondition from "./BlockConditions/ListIntervalCondition";
+import NumberIntervalCondition from "./BlockConditions/NumberIntervalCondition";
+import ValueCondition from "./BlockConditions/ValueCondition";
 
 class BlockEditor extends React.Component<Props, State> {
   
@@ -11,11 +14,13 @@ class BlockEditor extends React.Component<Props, State> {
       visibility: props.block.visibility,
       drop_level: props.block.drop_level ? _.clone(this.props.block.drop_level) : {},
       item_level: props.block.item_level ? _.clone(this.props.block.item_level) : {},
+      quality: props.block.quality ? _.clone(this.props.block.quality) : {},
+      rarity: props.block.rarity ? _.clone(this.props.block.rarity) : {},
+      socket_group: props.block.socket_group ? _.clone(this.props.block.socket_group) : {},
     };
     this.print = this.print.bind(this);
     this.save = this.save.bind(this);
     this.changeBlockVisibility = this.changeBlockVisibility.bind(this);
-    this.changeBlockValueNumber = this.changeBlockValueNumber.bind(this);
   }
   
   private save() {
@@ -31,16 +36,6 @@ class BlockEditor extends React.Component<Props, State> {
     
   }
   
-  private changeBlockValueNumber<Condition extends keyof Block, Key extends keyof Block[Condition]>(condition: Condition, key: Key, event: React.ChangeEvent<HTMLInputElement>): void {
-    const min = +((event.target.attributes.getNamedItem("min") || {value: undefined}).value || NaN);
-    const max = +((event.target.attributes.getNamedItem("ax") || {value: undefined}).value || NaN);
-    const value = +event.target.value;
-    
-    if (value < min) return this.setState(_.set(this.state, [condition, key], min));
-    if (value > max) return this.setState(_.set(this.state, [condition, key], max));
-    return this.setState(_.set(this.state, [condition, key], value));
-  }
-  
   public render() {
     return (
       <div className={"block-editor"}>
@@ -49,14 +44,11 @@ class BlockEditor extends React.Component<Props, State> {
         {/*  <input type="checkbox" name="visibility" checked={this.state.visibility} onChange={this.changeBlockVisibility}/>*/}
         {/*</div>*/}
         
-        <div className="interval-condition">
-          <span className={"title"}>Drop Level: </span>
-          <div className={"interval"}>
-            <input min={0} max={100} value={this.state.drop_level.gte || ""} onChange={event => this.changeBlockValueNumber("drop_level", "gte", event)} placeholder={"from"}/>
-            <span>-</span>
-            <input min={0} max={100} value={this.state.drop_level.lte || ""} onChange={event => this.changeBlockValueNumber("drop_level", "lte", event)} placeholder={"to"}/>
-          </div>
-        </div>
+        <NumberIntervalCondition min={0} max={100} condition={this.props.block.drop_level} title={"Drop Level"}/>
+        <NumberIntervalCondition min={0} max={100} condition={this.props.block.item_level} title={"Item Level"}/>
+        <NumberIntervalCondition min={0} max={20} condition={this.props.block.quality} title={"Quality"}/>
+        <ListIntervalCondition options={["", "normal", "magic", "rare", "unique"]} condition={this.props.block.rarity} title={"Rarity"}/>
+        <ValueCondition filter={new RegExp("^[RGBW]{0,6}$",)} transform={v => v.toUpperCase()} condition={this.props.block.socket_group} title={"Socket Group"}/>
         
         {/*<div className="item-level">*/}
         {/*  <span>Item Level</span>*/}
@@ -85,8 +77,11 @@ interface Props {
 
 interface State extends Pick<Block, { [K in keyof Block]: Block[K] extends Function ? never : K }[keyof Block]> {
   visibility: boolean
-  drop_level: {lte?: number, gte?: number}
-  item_level: {lte?: number, gte?: number}
+  drop_level: BlockIntervalCondition<number>
+  item_level: BlockIntervalCondition<number>
+  quality: BlockIntervalCondition<number>
+  rarity: BlockIntervalCondition<string>
+  socket_group: BlockValueCondition<string>
 }
 
 export default BlockEditor;

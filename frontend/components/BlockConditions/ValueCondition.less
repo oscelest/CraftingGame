@@ -1,0 +1,39 @@
+@import "../../defaults.less";
+
+.value-condition {
+  flex-flow: row;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 200px;
+  height: 20px;
+  margin: 0 0 10px 0;
+
+  .title {
+    flex: 1 1 auto;
+    align-items: flex-end;
+    height: 100%;
+    color: white;
+    font-size: 14px;
+  }
+
+  .value {
+
+    text-align: center;
+    width: 90px;
+    color: white;
+    border: none;
+    border-bottom: 1px solid white;
+    outline: none;
+    background: none;
+
+    &:focus {
+      border-bottom: 1px solid @input-focus-color;
+      transition: border-bottom 0s ease-in-out;
+    }
+
+    &.error {
+      border-bottom: 1px solid @input-error-color;
+      transition: border-bottom .3s ease-in-out;
+    }
+  }
+}
