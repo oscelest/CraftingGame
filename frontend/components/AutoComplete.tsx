@@ -1,6 +1,5 @@
 import _ from "lodash";
 import * as React from "react";
-import {ChangeEventHandler, KeyboardEventHandler} from "react";
 import "./AutoComplete.less";
 
 export default class AutoComplete extends React.Component<Props, State> {
@@ -8,50 +7,63 @@ export default class AutoComplete extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      open:   false,
-      active: false,
+      value:    "",
+      selected: undefined,
+      active:   false,
     };
     this.blurValue = this.blurValue.bind(this);
     this.focusValue = this.focusValue.bind(this);
-    this.clickValue = this.clickValue.bind(this);
+    this.changeValue = this.changeValue.bind(this);
+    this.mouseupValue = this.mouseupValue.bind(this);
+    this.mousedownValue = this.mousedownValue.bind(this);
     this.submitValue = this.submitValue.bind(this);
   }
   
-  private focusValue(event: React.FocusEvent<HTMLInputElement>) {
-    event.preventDefault();
-    this.setState(_.merge({}, this.state, {active: true, open: true} as State));
+  private focusValue() {
+    this.setState(_.merge({}, this.state, {active: true} as State));
   }
   
-  private blurValue(event: React.FocusEvent<HTMLInputElement>) {
-    event.preventDefault();
-    this.setState(_.merge({}, this.state, {active: false, open: true} as State));
-    // TODO: This should not be delayed.
-    _.delay(() => !this.state.active && this.setState(_.merge({}, this.state, {active: false, open: false} as State)), 100);
+  private blurValue() {
+    this.setState(_.merge({}, this.state, {active: false} as State));
+  }
+  
+  private changeValue(event: React.ChangeEvent<HTMLInputElement>) {
+    this.setState(_.merge({}, this.state, {value: event.target.value}));
   }
   
   private submitValue(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.charCode !== 13) return;
-    event.preventDefault();
-    this.props.onSubmit(event);
+    const target = event.target as HTMLInputElement;
+    this.props.onSubmit(target.value);
+    this.setState(_.merge({}, this.state, {value: target.value = ""}));
   }
   
-  private clickValue(event: React.MouseEvent<HTMLSpanElement>, value: string) {
+  private mousedownValue(event: React.MouseEvent<HTMLSpanElement>) {
     event.preventDefault();
-    this.setState(_.merge({}, this.state, {active: true, open: true} as State));
-    this.props.onAutoComplete(value);
+    this.setState(_.merge({}, this.state, {active: true, selected: event.target} as State));
+  }
+  
+  private mouseupValue(event: React.MouseEvent<HTMLSpanElement>) {
+    event.preventDefault();
+    if (this.state.selected === event.target) {
+      this.setState(_.merge({}, this.state, {active: true, selected: undefined} as State));
+      this.props.onSubmit((event.target as HTMLSpanElement).innerHTML);
+    }
   }
   
   public render() {
-    const list = _.take(_.filter(_.difference(this.props.list, this.props.blacklist || []), v => _.includes(v, this.props.value)).sort(), 5);
+    // TODO: Better sorting.
+    const list = _.take(_.filter(_.difference(this.props.list, this.props.blacklist || []), v => _.includes(_.toLower(v), _.toLower(this.state.value))).sort(), 5);
     
     return (
       <div className={"auto-complete"}>
-        <input onChange={this.props.onChange} onKeyPress={this.submitValue} onBlur={this.blurValue} onFocus={this.focusValue}/>
+        {/* TODO: Arrow up and down. */}
+        <input onFocus={this.focusValue} onBlur={this.blurValue} onChange={this.changeValue} onKeyPress={this.submitValue}/>
         {
-          this.state.open && !!list.length &&
+          this.state.active && !!list.length &&
           <div className={"select"}>
-            {_.map(list, (element, key) =>
-              <span className={"option"} key={key} onClick={e => this.clickValue(e, element)}>{element}</span>,
+            {_.map(list, (value, key) =>
+              <span className={"option"} key={key} onMouseDown={this.mousedownValue} onMouseUp={this.mouseupValue}>{value}</span>,
             )}
           </div>
         }
@@ -64,13 +76,11 @@ export default class AutoComplete extends React.Component<Props, State> {
 interface Props {
   list: string[]
   blacklist?: string[]
-  value: string
-  onChange: ChangeEventHandler<HTMLInputElement>;
-  onSubmit: KeyboardEventHandler<HTMLInputElement>;
-  onAutoComplete: (value: string) => void;
+  onSubmit: (value: string) => void;
 }
 
 interface State {
-  open: boolean
+  value: string
+  selected?: HTMLSpanElement
   active: boolean
 }
