@@ -3,11 +3,12 @@ import _ from "lodash";
 export default class Block {
   
   public visibility: boolean = true;
-  public drop_level: BlockIntervalCondition<number> = {};
-  public item_level: BlockIntervalCondition<number> = {};
-  public quality: BlockIntervalCondition<number> = {};
-  public rarity: BlockIntervalCondition<string> = {};
-  public socket_group: BlockValueCondition<string> = {};
+  public drop_level: BlockIntervalCondition<number> = {lte: 0, gte: 0};
+  public item_level: BlockIntervalCondition<number> = {lte: 0, gte: 0};
+  public quality: BlockIntervalCondition<number> = {lte: 0, gte: 0};
+  public rarity: BlockIntervalCondition<string> = {lte: "", gte: ""};
+  public socket_group: BlockValueCondition<string> = {value: ""};
+  public base_type: BlockListCondition<string> = {values: ["Vaal Axe", "Shadow Axe"]};
   
   constructor() {
   
@@ -36,10 +37,15 @@ export default class Block {
 }
 
 export interface BlockIntervalCondition<T> {
-  lte?: T
-  gte?: T
+  lte: T
+  gte: T
 }
 
+export interface BlockListCondition<T> {
+  values: T[]
+}
+
+
 export interface BlockValueCondition<T> {
-  value?: T
+  value: T
 }

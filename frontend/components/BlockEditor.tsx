@@ -1,7 +1,9 @@
+import Block from "../classes/Block";
+import BaseTypes from "../static/json/base_types.json";
 import _ from "lodash";
 import * as React from "react";
-import Block, {BlockIntervalCondition, BlockValueCondition} from "../classes/Block";
 import "./BlockEditor.less";
+import ListCondition from "./BlockConditions/ListCondition";
 import ListIntervalCondition from "./BlockConditions/ListIntervalCondition";
 import NumberIntervalCondition from "./BlockConditions/NumberIntervalCondition";
 import ValueCondition from "./BlockConditions/ValueCondition";
@@ -10,30 +12,18 @@ class BlockEditor extends React.Component<Props, State> {
   
   constructor(props: Props) {
     super(props);
-    this.state = {
-      visibility: props.block.visibility,
-      drop_level: props.block.drop_level ? _.clone(this.props.block.drop_level) : {},
-      item_level: props.block.item_level ? _.clone(this.props.block.item_level) : {},
-      quality: props.block.quality ? _.clone(this.props.block.quality) : {},
-      rarity: props.block.rarity ? _.clone(this.props.block.rarity) : {},
-      socket_group: props.block.socket_group ? _.clone(this.props.block.socket_group) : {},
-    };
+    this.state = _.reduce(this.props.block, (r,v,k) => _.set(r, k, _.clone(v)), {} as Block);
     this.print = this.print.bind(this);
     this.save = this.save.bind(this);
-    this.changeBlockVisibility = this.changeBlockVisibility.bind(this);
   }
   
   private save() {
+    console.log(this.props.block, this.state);
     _.merge(this.props.block, this.state);
   }
   
   private print() {
     console.log(this.props.block.print());
-  }
-  
-  private changeBlockVisibility(event: React.ChangeEvent<HTMLInputElement>) {
-    return this.setState(_.assign(this.state, {visibility: event.target.checked}));
-    
   }
   
   public render() {
@@ -44,11 +34,12 @@ class BlockEditor extends React.Component<Props, State> {
         {/*  <input type="checkbox" name="visibility" checked={this.state.visibility} onChange={this.changeBlockVisibility}/>*/}
         {/*</div>*/}
         
-        <NumberIntervalCondition min={0} max={100} condition={this.props.block.drop_level} title={"Drop Level"}/>
-        <NumberIntervalCondition min={0} max={100} condition={this.props.block.item_level} title={"Item Level"}/>
-        <NumberIntervalCondition min={0} max={20} condition={this.props.block.quality} title={"Quality"}/>
-        <ListIntervalCondition options={["", "normal", "magic", "rare", "unique"]} condition={this.props.block.rarity} title={"Rarity"}/>
-        <ValueCondition filter={new RegExp("^[RGBW]{0,6}$",)} transform={v => v.toUpperCase()} condition={this.props.block.socket_group} title={"Socket Group"}/>
+        <NumberIntervalCondition min={0} max={100} condition={this.state.drop_level} title={"Drop Level"}/>
+        <NumberIntervalCondition min={0} max={100} condition={this.state.item_level} title={"Item Level"}/>
+        <NumberIntervalCondition min={0} max={20} condition={this.state.quality} title={"Quality"}/>
+        <ListIntervalCondition options={["", "normal", "magic", "rare", "unique"]} condition={this.state.rarity} title={"Rarity"}/>
+        <ValueCondition filter={new RegExp("^[RGBW]{0,6}$",)} transform={v => v.toUpperCase()} condition={this.state.socket_group} title={"Socket Group"}/>
+        <ListCondition list={BaseTypes} condition={this.state.base_type} title={"Base Types"}/>
         
         {/*<div className="item-level">*/}
         {/*  <span>Item Level</span>*/}
@@ -76,12 +67,7 @@ interface Props {
 }
 
 interface State extends Pick<Block, { [K in keyof Block]: Block[K] extends Function ? never : K }[keyof Block]> {
-  visibility: boolean
-  drop_level: BlockIntervalCondition<number>
-  item_level: BlockIntervalCondition<number>
-  quality: BlockIntervalCondition<number>
-  rarity: BlockIntervalCondition<string>
-  socket_group: BlockValueCondition<string>
+
 }
 
 export default BlockEditor;
