@@ -44,6 +44,8 @@ export default Promise.all([
   TypeORM.createQueryBuilder().insert().orIgnore().into(ItemClass).values({name: "Delve Socketable Currency"}).execute(),
 
   TypeORM.createQueryBuilder().insert().orIgnore().into(ItemClass).values({name: "Divination Card"}).execute(),
+  
+  TypeORM.createQueryBuilder().insert().orIgnore().into(ItemClass).values({name: "Incubator"}).execute(),
 
   TypeORM.createQueryBuilder().insert().orIgnore().into(ItemClass).values({name: "Maps"}).execute(),
   TypeORM.createQueryBuilder().insert().orIgnore().into(ItemClass).values({name: "Map Fragments"}).execute(),
