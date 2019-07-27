@@ -8,7 +8,7 @@ export default class Block {
   public quality: BlockIntervalCondition<number> = {lte: 0, gte: 0};
   public rarity: BlockIntervalCondition<string> = {lte: "", gte: ""};
   public socket_group: BlockValueCondition<string> = {value: ""};
-  public base_type: BlockListCondition<string> = {values: ["Vaal Axe", "Shadow Axe"]};
+  public base_type: BlockListCondition<string> = {values: []};
   
   constructor() {
   

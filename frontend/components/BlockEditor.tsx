@@ -39,7 +39,7 @@ class BlockEditor extends React.Component<Props, State> {
         <NumberIntervalCondition min={0} max={20} condition={this.state.quality} title={"Quality"}/>
         <ListIntervalCondition options={["", "normal", "magic", "rare", "unique"]} condition={this.state.rarity} title={"Rarity"}/>
         <ValueCondition filter={new RegExp("^[RGBW]{0,6}$",)} transform={v => v.toUpperCase()} condition={this.state.socket_group} title={"Socket Group"}/>
-        <ListCondition list={BaseTypes} condition={this.state.base_type} title={"Base Types"}/>
+        <ListCondition list={_.reduce(BaseTypes, (r,v) => _.concat(r,v), [] as string[])} condition={this.state.base_type} title={"Base Types"}/>
         
         {/*<div className="item-level">*/}
         {/*  <span>Item Level</span>*/}

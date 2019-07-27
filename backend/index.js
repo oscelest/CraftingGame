@@ -18,6 +18,9 @@ electron.app.on("ready", async () => {
             entities: [path.resolve(__dirname, "entity", "*.js")],
             synchronize: true,
         });
+        await (await Promise.resolve().then(() => require("./data/ItemClass"))).default;
+        await (await Promise.resolve().then(() => require("./data/BaseType"))).default;
+        await (await Promise.resolve().then(() => require("./data/Unique"))).default;
     }
     catch (e) {
         console.log(e);
