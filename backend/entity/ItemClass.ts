@@ -18,7 +18,7 @@ export default class ItemClass {
     this.name = name;
   }
   
-  public static find() {
+  public static async find() {
     return TypeORM.getManager().find(ItemClass);
   }
   

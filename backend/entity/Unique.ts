@@ -11,13 +11,17 @@ export default class Unique {
   @TypeORM.Column()
   name: string;
   
-  @TypeORM.ManyToOne(type => BaseType, base_type => base_type.uniques)
+  @TypeORM.ManyToOne(() => BaseType, base_type => base_type.uniques)
   @TypeORM.JoinColumn({name: "base_type"})
   base_type: BaseType;
   
   constructor(name: string, base_type: BaseType) {
     this.name = name;
     this.base_type = base_type;
+  }
+  
+  public static async find() {
+    return await TypeORM.getManager().find(Unique, {relations: ["base_type"]});
   }
   
 }

@@ -1,6 +1,8 @@
+import _ from "lodash";
 import Head from "next/head";
 import * as React from "react";
 import {Global} from "../../typings/Global";
+import {ipc} from "../pages/_app";
 import "./Layout.less";
 import Navigation from "./Navigation";
 
@@ -16,22 +18,22 @@ class Layout extends React.Component<Props, State> {
   
   private clickWindowMinimize(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
-    global.ipc.send("message", "window", "minimize", []);
+    ipc.send("message", "window", "minimize", []);
   }
   
   private clickWindowMaximize(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
-    global.ipc.send("message", "window", "maximize", []);
+    ipc.send("message", "window", "maximize", []);
   }
   
   private clickWindowRestore(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
-    global.ipc.send("message", "window", "restore", []);
+    ipc.send("message", "window", "restore", []);
   }
   
   private clickWindowClose(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
-    global.ipc.send("message", "window", "close", []);
+    ipc.send("message", "window", "close", []);
   }
   
   public render() {
@@ -52,7 +54,7 @@ class Layout extends React.Component<Props, State> {
         <div id="window-controls">
           <button className="minimize" onClick={this.clickWindowMinimize}>🗕</button>
           {
-            this.props.global.flag_maximized
+            this.props.global.configuration.maximized
             ? <button className="restore" onClick={this.clickWindowRestore}>🗗</button>
             : <button className="maximize" onClick={this.clickWindowMaximize}>🗖</button>
           }
@@ -61,8 +63,24 @@ class Layout extends React.Component<Props, State> {
       </div>,
       <header id="header" key="header"/>,
       <main id="main" key="main">
-        <Navigation key="navigation" global={this.props.global}/>
-        {this.props.children}
+        {
+          !_.every(this.props.global.ready.connect) &&
+          <div>Connecting...</div>
+        }
+        {
+          _.every(this.props.global.ready.connect) && !_.every(this.props.global.ready.initialize) &&
+          <div>Initializing...</div>
+        }
+        {
+          _.every(this.props.global.ready.initialize) && !_.every(this.props.global.ready.find) &&
+          <div>Loading resources...</div>
+        }
+        {
+          _.every(_.map(this.props.global.ready, v => _.every(v))) && [
+            <Navigation key="navigation" global={this.props.global}/>,
+            this.props.children,
+          ]
+        }
       </main>,
       <footer id="footer" key="footer"/>,
     ];

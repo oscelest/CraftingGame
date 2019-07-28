@@ -24,10 +24,8 @@ export default class BaseType {
     this.item_class = item_class;
   }
   
-  public static async findByItemClass(item_class: string): Promise<BaseType[]> {
-    const item_class_entity = await TypeORM.getManager().findOne(ItemClass, {where: {name: item_class}})
-    if (!item_class_entity) throw new Error("Item Class doesn't exist.");
-    return await TypeORM.getManager().find(BaseType, {where: {item_class: item_class_entity}, relations: ["item_class"]});
+  public static async find(): Promise<BaseType[]> {
+    return await TypeORM.getManager().find(BaseType, {relations: ["item_class"]});
   }
   
 }

@@ -4,7 +4,6 @@ import * as electronIsDev from "electron-is-dev";
 import * as electronNext from "electron-next";
 import * as path from "path";
 import "reflect-metadata";
-import * as typeorm from "typeorm";
 import * as url from "url";
 import IPC from "../typings/IPC";
 
@@ -12,25 +11,13 @@ const ipc = electron.ipcMain as IPC.Backend;
 
 electron.app.on("ready", async () => {
   await electronNext("./frontend");
-  try {
-    await typeorm.createConnection({
-      type:        "sqlite",
-      database:    path.resolve(electron.app.getPath("userData"), "master.sqlite3"),
-      entities:    [path.resolve(__dirname, "entity", "*.js")],
-      synchronize: true,
-    });
-    await (await import("./data/ItemClass")).default;
-    await (await import("./data/BaseType")).default;
-    await (await import("./data/Unique")).default;
-  }
-  catch (e) {
-    console.log(e);
-  }
   
   const ipc_methods: IPC.Backend.Handlers = {
-    base_type: (await import("./ipc/base_type")).default,
-    item_class: (await import("./ipc/item_class")).default,
     filter:     (await import("./ipc/filter")).default,
+    database:   (await import("./ipc/database")).default,
+    base_type:  (await import("./ipc/base_type")).default,
+    item_class: (await import("./ipc/item_class")).default,
+    unique:     (await import("./ipc/unique")).default,
   };
   
   ipc.on("message", async (event, handler, method, params) => {
@@ -40,7 +27,7 @@ electron.app.on("ready", async () => {
       if (response !== undefined) event.reply("message", handler, method, [response]);
     }
     catch (exception) {
-      console.log(exception);
+      console.log("EXCEPTION", exception);
       event.reply("error", handler, method, exception);
     }
   });
