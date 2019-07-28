@@ -15,11 +15,10 @@ export default class IndexPage extends React.Component<Props, State> {
   
   public render() {
     const block = new Block();
-    // const items = {"Vaal Axe": ["Hezmana's Bloodlust", "Atziri's Disfavour"], "Infernal Sword": ["Starforge", "Oro's Sacrifice"], "Stiletto": ["Bloodplay"]};
     
     return (
       <div id="index-page" key="page">
-        <BlockEditor block={block}/>
+        <BlockEditor global={this.props.global} block={block}/>
       </div>
     );
   }

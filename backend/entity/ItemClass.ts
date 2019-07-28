@@ -18,4 +18,8 @@ export default class ItemClass {
     this.name = name;
   }
   
+  public static find() {
+    return TypeORM.getManager().find(ItemClass);
+  }
+  
 }

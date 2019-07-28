@@ -16,11 +16,15 @@ class PictologueApp extends App {
     this.state = {
       ready:          false,
       flag_maximized: false,
+      item_classes: [],
+      base_types: {},
     };
   }
   
   public async componentDidMount() {
     const ipc_methods: IPC.Frontend.Handlers = {
+      base_type: (await import("../ipc/base_type")).default,
+      item_class: (await import("../ipc/item_class")).default,
       filter: (await import("../ipc/filter")).default,
     };
     

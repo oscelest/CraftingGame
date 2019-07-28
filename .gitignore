@@ -1,3 +1,4 @@
+backend/*.js
 backend/**/*.js
 frontend/**/*.js
 frontend/**/*.jsx

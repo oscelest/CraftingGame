@@ -18,11 +18,13 @@ export default class ListCondition extends React.Component<Props, State> {
     if (!element) return;
     this.props.condition.values.push(element);
     this.setState(_.merge({}, this.state));
+    if (this.props.onValueAdded) this.props.onValueAdded(element)
   }
   
   private removeValue(key: number) {
-    this.props.condition.values.splice(key, 1);
+    const removed = this.props.condition.values.splice(key, 1);
     this.setState(_.merge({}, this.state));
+    if (this.props.onValueRemoved) this.props.onValueRemoved(_.head(removed) as string)
   }
   
   public render() {
@@ -50,6 +52,8 @@ interface Props {
   title: string
   list: string[]
   condition: BlockListCondition<string>
+  onValueAdded?: (value: string) => void
+  onValueRemoved?: (value: string) => void
 }
 
 interface State {

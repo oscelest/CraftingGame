@@ -1,3 +1,5 @@
+import BaseType from "../backend/entity/BaseType";
+import ItemClass from "../backend/entity/ItemClass";
 import {Global} from "./Global";
 
 declare namespace IPC {
@@ -28,6 +30,12 @@ declare namespace IPC {
     
     export interface Handlers {
       [key: string]: {[key: string]: any}
+      base_type: {
+        findByItemClass(this: IPC.Backend.This, item_class: string): Promise<BaseType[]>
+      }
+      item_class: {
+        find(this: IPC.Backend.This): Promise<ItemClass[]>
+      }
       filter: {
         load(this: IPC.Backend.This): void
       }
@@ -49,6 +57,12 @@ declare namespace IPC {
   export namespace Frontend {
     export interface Handlers {
       [key: string]: {[key: string]: any}
+      base_type: {
+        findByItemClass(this: IPC.Frontend.This, base_types: BaseType[]): void
+      }
+      item_class: {
+        find(this: IPC.Frontend.This, item_classes: ItemClass[]): void
+      }
       filter: {
         load(this: IPC.Frontend.This, filter: string): void
       }

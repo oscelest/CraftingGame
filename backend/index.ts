@@ -28,7 +28,9 @@ electron.app.on("ready", async () => {
   }
   
   const ipc_methods: IPC.Backend.Handlers = {
-    filter: (await import("./ipc/filter")).default,
+    base_type: (await import("./ipc/base_type")).default,
+    item_class: (await import("./ipc/item_class")).default,
+    filter:     (await import("./ipc/filter")).default,
   };
   
   ipc.on("message", async (event, handler, method, params) => {
