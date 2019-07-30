@@ -2,7 +2,6 @@ import _ from "lodash";
 import * as React from "react";
 import {BlockListCondition} from "../../classes/Block";
 import AutoComplete from "../AutoComplete";
-import "./ListCondition.less";
 
 export default class ListCondition extends React.Component<Props, State> {
   
@@ -29,14 +28,14 @@ export default class ListCondition extends React.Component<Props, State> {
   
   public render() {
     return (
-      <div className="list-condition">
+      <div className="condition list-condition">
         <div className={"control"}>
           <span className={"title"}>{this.props.title}</span>
-          <AutoComplete list={this.props.list} blacklist={this.props.condition.values} onSubmit={this.submitValue}/>
+          <AutoComplete className={"value"} list={this.props.list} blacklist={this.props.condition.values} onComplete={this.submitValue}/>
         </div>
-        <div className={"values"}>
+        <div className={"list"}>
           {_.map(this.props.condition.values, (value, key) =>
-            <div className={"value"} key={key}>
+            <div className={"element"} key={key}>
               <span className={"text"}>{value}</span>
               <span className={"action"} onClick={this.removeValue.bind(this, key)}>🗙</span>
             </div>,

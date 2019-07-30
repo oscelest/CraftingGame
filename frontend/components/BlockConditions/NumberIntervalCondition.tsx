@@ -1,6 +1,5 @@
 import _ from "lodash";
 import * as React from "react";
-import "./NumberIntervalCondition.less";
 
 class NumberIntervalCondition extends React.Component<Props, State> {
   
@@ -40,7 +39,7 @@ class NumberIntervalCondition extends React.Component<Props, State> {
     const min = +((event.target.attributes.getNamedItem("min") || {value: undefined}).value || NaN);
     const max = +((event.target.attributes.getNamedItem("max") || {value: undefined}).value || NaN);
     const value = +event.target.value;
-  
+    
     if (value < min) return min;
     if (value > max) return max;
     return value;
@@ -48,12 +47,14 @@ class NumberIntervalCondition extends React.Component<Props, State> {
   
   public render() {
     return (
-      <div className="number-interval-condition">
-        <span className={"title"}>{this.props.title}</span>
-        <div className={"interval"}>
-          <input min={this.props.min} max={this.props.max} value={this.state.condition.gte || ""} onChange={this.changeGTE} onBlur={this.blurGTE} placeholder={"from"}/>
-          <span>-</span>
-          <input min={this.props.min} max={this.props.max} value={this.state.condition.lte || ""} onChange={this.changeLTE} onBlur={this.blurLTE} placeholder={"to"}/>
+      <div className="condition number-interval-condition">
+        <div className={"control"}>
+          <span className={"title"}>{this.props.title}</span>
+          <div className={"value"}>
+            <input className={"gte"} min={this.props.min} max={this.props.max} value={this.state.condition.gte || ""} onChange={this.changeGTE} onBlur={this.blurGTE} placeholder={"from"}/>
+            <span className={"to"}>-</span>
+            <input className={"gte"} min={this.props.min} max={this.props.max} value={this.state.condition.lte || ""} onChange={this.changeLTE} onBlur={this.blurLTE} placeholder={"to"}/>
+          </div>
         </div>
       </div>
     );

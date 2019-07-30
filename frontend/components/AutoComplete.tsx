@@ -56,9 +56,9 @@ export default class AutoComplete extends React.Component<Props, State> {
         if (this.state.index === -1) {
           const target = event.target as HTMLInputElement;
           this.setState(_.merge({}, this.state, {value: target.value = ""}));
-          return this.props.onSubmit(target.value);
+          return this.props.onComplete(target.value);
         }
-        this.props.onSubmit(this.sanitizeList()[this.state.index]);
+        this.props.onComplete(this.sanitizeList()[this.state.index]);
         const list = this.sanitizeList();
         return this.setState(_.merge({}, this.state, {index: list.length === 0 ? -1 : this.state.index + 1 > list.length ? this.state.index - 1 : this.state.index}));
       case 38:
@@ -77,7 +77,7 @@ export default class AutoComplete extends React.Component<Props, State> {
   private mouseUpOption(event: React.MouseEvent<HTMLSpanElement>, key: number) {
     if (this.state.index === key) {
       event.preventDefault();
-      this.props.onSubmit((event.target as HTMLSpanElement).innerHTML);
+      this.props.onComplete((event.target as HTMLSpanElement).innerHTML);
     }
   }
   
@@ -93,7 +93,7 @@ export default class AutoComplete extends React.Component<Props, State> {
     const list = this.sanitizeList();
     // TODO: Better sorting.
     return (
-      <div className={"auto-complete"}>
+      <div className={`${this.props.className} auto-complete`}>
         {/* TODO: Arrow up and down. */}
         <input onFocus={this.focusInput} onBlur={this.blurInput} onChange={this.changeInput} onKeyDown={this.keydownInput}/>
         {
@@ -113,10 +113,11 @@ export default class AutoComplete extends React.Component<Props, State> {
 }
 
 interface Props {
+  className: string
   select_length?: number
   list: string[]
   blacklist?: string[]
-  onSubmit: (value: string) => void;
+  onComplete: (value: string) => void;
 }
 
 interface State {

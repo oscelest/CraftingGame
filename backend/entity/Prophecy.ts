@@ -4,7 +4,7 @@ import Unique from "./Unique";
 
 @TypeORM.Entity()
 @TypeORM.Unique("name", ["name"])
-export default class BaseType {
+export default class Prophecy {
   
   @TypeORM.PrimaryGeneratedColumn("uuid")
   id: number;
@@ -24,8 +24,8 @@ export default class BaseType {
     this.item_class = item_class;
   }
   
-  public static async find(): Promise<BaseType[]> {
-    return await TypeORM.getManager().find(BaseType, {relations: ["item_class"]});
+  public static async find(): Promise<Prophecy[]> {
+    return await TypeORM.getManager().find(Prophecy, {relations: ["item_class"]});
   }
   
 }

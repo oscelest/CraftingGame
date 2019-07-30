@@ -1,9 +1,8 @@
-import _ from "lodash";
 import App, {Container} from "next/app";
 import * as React from "react";
+import Application from "../../typings/Application";
 import {Global} from "../../typings/Global";
 import IPC from "../../typings/IPC";
-import Application from "../../typings/Application";
 import Layout from "../components/Layout";
 
 class PictologueApp extends App {
@@ -21,11 +20,13 @@ class PictologueApp extends App {
           item_class: false,
           base_type:  false,
           unique:     false,
+          prophecy:   false,
         },
         find:       {
           item_class: false,
           base_type:  false,
           unique:     false,
+          prophecy:   false,
         },
       },
       configuration: {
@@ -33,6 +34,7 @@ class PictologueApp extends App {
       },
       data:          {
         item_class: [],
+        prophecy:   [],
         base_type:  {},
         unique:     {},
       },
@@ -43,9 +45,8 @@ class PictologueApp extends App {
     const ipc_methods: IPC.Frontend.Handlers = {
       filter:     (await import("../ipc/filter")).default,
       database:   (await import("../ipc/database")).default,
-      base_type:  (await import("../ipc/base_type")).default,
-      item_class: (await import("../ipc/item_class")).default,
-      unique:     (await import("../ipc/unique")).default,
+      initialize: (await import("../ipc/initialize")).default,
+      find:       (await import("../ipc/find")).default,
     };
     
     ipc.on("message", async (event, handler, method, params) => {
@@ -84,9 +85,9 @@ export const ipc: IPC.Frontend = global.ipc;
 export const application: Application = {
   prepare: {
     done: {
-      connections: false,
+      connections:     false,
       initializations: false,
-      resources: false
+      resources:       false,
     },
     connections() {
       if (application.prepare.done.connections) return;
@@ -96,16 +97,18 @@ export const application: Application = {
     initializations() {
       if (application.prepare.done.initializations) return;
       application.prepare.done.initializations = true;
-      ipc.send("message", "base_type", "initialize", []);
-      ipc.send("message", "item_class", "initialize", []);
-      ipc.send("message", "unique", "initialize", []);
+      ipc.send("message", "initialize", "item_class", []);
+      ipc.send("message", "initialize", "base_type", []);
+      ipc.send("message", "initialize", "unique", []);
+      ipc.send("message", "initialize", "prophecy", []);
     },
     resources() {
       if (application.prepare.done.resources) return;
       application.prepare.done.resources = true;
-      ipc.send("message", "base_type", "find", []);
-      ipc.send("message", "item_class", "find", []);
-      ipc.send("message", "unique", "find", []);
+      ipc.send("message", "find", "item_class", []);
+      ipc.send("message", "find", "base_type", []);
+      ipc.send("message", "find", "unique", []);
+      ipc.send("message", "find", "prophecy", []);
     },
-  }
+  },
 };

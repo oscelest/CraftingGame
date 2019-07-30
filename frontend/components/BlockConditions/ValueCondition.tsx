@@ -1,7 +1,6 @@
 import _ from "lodash";
 import * as React from "react";
 import {BlockValueCondition} from "../../classes/Block";
-import "./ValueCondition.less";
 
 export default class ValueCondition extends React.Component<Props, State> {
   
@@ -28,9 +27,13 @@ export default class ValueCondition extends React.Component<Props, State> {
   
   public render() {
     return (
-      <div className="value-condition">
-        <span className={"title"}>{this.props.title}</span>
-        <input className={_.join(_.filter(["value", this.state.error.value ? "error" : null]), " ")} onChange={this.changeValue} value={this.state.condition.value || ""}/>
+      <div className="condition value-condition">
+        <div className={"control"}>
+          <span className={"title"}>{this.props.title}</span>
+          <div className={"value"}>
+            <input className={this.state.error.value ? "error" : ""} onChange={this.changeValue} value={this.state.condition.value || ""}/>
+          </div>
+        </div>
       </div>
     );
   }

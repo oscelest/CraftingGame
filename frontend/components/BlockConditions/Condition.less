@@ -1,0 +1,170 @@
+@import "../../defaults.less";
+
+div.condition {
+  flex: 0 0 auto;
+  flex-flow: column;
+  margin: 0 0 10px 0;
+
+  div.control {
+    flex: 0 0 auto;
+    flex-flow: row;
+    align-items: center;
+    justify-content: space-between;
+
+    span.title {
+      flex: 1 1 auto;
+      align-items: center;
+      height: 20px;
+      color: white;
+      font-size: 14px;
+    }
+
+    div.value {
+      height: 20px;
+      flex: 0 0 auto;
+      align-items: center;
+
+      input {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        font-size: 13px;
+        color: white;
+        border: none;
+        border-bottom: 1px solid white;
+        outline: none;
+        background: none;
+
+        &.lte, &.gte {
+          text-align: center;
+
+          &:first-child {
+            padding-right: 5px;
+          }
+
+          &:last-child {
+            padding-left: 5px;
+          }
+        }
+
+        &:focus {
+          border-bottom: 1px solid @input-focus-color;
+          transition: border-bottom 0s ease-in-out;
+        }
+
+        &.error {
+          border-bottom: 1px solid @input-error-color;
+          transition: border-bottom .3s ease-in-out;
+        }
+      }
+
+      select {
+        width: 100%;
+        height: 100%;
+        color: #fff;
+        background: none;
+        text-align: center;
+        border: none;
+        outline: none;
+        border-bottom: 1px solid white;
+
+        &:first-child {
+          padding-right: 5px;
+        }
+
+        &:last-child {
+          padding-left: 5px;
+        }
+
+        &:focus {
+          border-bottom: 1px solid @input-focus-color;
+        }
+
+        option {
+          margin: 40px;
+          background: @background-secondary-color;
+          color: #fff;
+          outline: none;
+        }
+      }
+
+      span.to {
+        border-bottom: 1px solid white;
+      }
+    }
+  }
+
+  &.boolean-condition {
+    div.value {
+      width: 20px;
+      padding: 2px;
+    }
+  }
+
+  &.list-interval-condition {
+    div.value {
+      width: 175px;
+    }
+  }
+
+  &.number-interval-condition {
+    div.value {
+      width: 90px;
+    }
+  }
+
+  &.value-condition {
+    div.value {
+      width: 90px;
+    }
+  }
+
+  &.list-condition {
+    div.value {
+      width: 175px;
+
+      .select {
+        background-color: @background-primary-color;
+        border: 1px solid @option-border-color;
+
+        .option {
+          padding: 2px 0;
+          font-size: 13px;
+          text-indent: 2px;
+
+          &.selected {
+            background-color: @hover-color;
+          }
+        }
+      }
+    }
+
+    .list {
+      flex: 1 1 auto;
+      flex-flow: row wrap;
+      border-radius: 5px;
+      min-height: 30px;
+      margin-top: 10px;
+      background-color: rgba(0, 0, 0, 0.2);
+      padding: 0 5px 5px 0;
+
+      .element {
+        height: 20px;
+        border-radius: 3px;
+        margin: 5px 0 0 5px;
+        border: 1px solid white;
+        padding: 0 4px;
+        font-size: 12px;
+        line-height: 12px;
+        align-items: center;
+
+        .action {
+          content: "🗙";
+          cursor: pointer;
+          margin-left: 4px;
+        }
+      }
+    }
+  }
+}
+

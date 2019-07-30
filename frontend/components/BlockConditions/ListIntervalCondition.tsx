@@ -1,7 +1,6 @@
 import _ from "lodash";
 import * as React from "react";
 import {BlockIntervalCondition} from "../../classes/Block";
-import "./ListIntervalCondition.less";
 
 class ListIntervalCondition extends React.Component<Props, State> {
   
@@ -42,16 +41,18 @@ class ListIntervalCondition extends React.Component<Props, State> {
   
   public render() {
     return (
-      <div className="list-interval-condition">
-        <span className={"title"}>{this.props.title}</span>
-        <div className={"interval"}>
-          <select onChange={this.changeGTE} onBlur={this.blurGTE} value={this.state.condition.gte || ""}>
-            {_.map(this.props.options, (option, key) => <option key={key} value={option}>{option}</option>)}
-          </select>
-          <span>-</span>
-          <select onChange={this.changeLTE} onBlur={this.blurLTE} value={this.state.condition.lte || ""}>
-            {_.map(this.props.options, (option, key) => <option key={key} value={option}>{option}</option>)}
-          </select>
+      <div className="condition list-interval-condition">
+        <div className={"control"}>
+          <span className={"title"}>{this.props.title}</span>
+          <div className={"value"}>
+            <select className={"gte"} onChange={this.changeGTE} onBlur={this.blurGTE} value={this.state.condition.gte || ""}>
+              {_.map(this.props.options, (option, key) => <option key={key} value={option}>{option}</option>)}
+            </select>
+            <span className={"to"}>-</span>
+            <select className={"lte"} onChange={this.changeLTE} onBlur={this.blurLTE} value={this.state.condition.lte || ""}>
+              {_.map(this.props.options, (option, key) => <option key={key} value={option}>{option}</option>)}
+            </select>
+          </div>
         </div>
       </div>
     );
