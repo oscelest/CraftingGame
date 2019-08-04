@@ -1,5 +1,6 @@
 import * as TypeORM from "typeorm";
 import BaseType from "./BaseType";
+import ItemAffix from "./ItemAffix";
 import Prophecy from "./Prophecy";
 
 @TypeORM.Entity()
@@ -17,6 +18,9 @@ export default class ItemClass {
   
   @TypeORM.OneToMany(() => Prophecy, prophecy => prophecy.item_class)
   prophecies: Prophecy[];
+  
+  @TypeORM.ManyToMany(() => ItemAffix, item_affix => item_affix.item_classes)
+  item_affixes: ItemAffix[];
   
   constructor(name: string) {
     this.name = name;
