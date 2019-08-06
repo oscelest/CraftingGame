@@ -19,7 +19,7 @@ export default class ItemClass {
   @TypeORM.OneToMany(() => Prophecy, prophecy => prophecy.item_class)
   prophecies: Prophecy[];
   
-  @TypeORM.ManyToMany(() => ItemAffix, item_affix => item_affix.item_classes)
+  @TypeORM.ManyToMany(() => ItemAffix, item_affix => item_affix.item_classes, {cascade: ["insert", "update"]})
   item_affixes: ItemAffix[];
   
   constructor(name: string) {
@@ -27,7 +27,7 @@ export default class ItemClass {
   }
   
   public static async find() {
-    return TypeORM.getManager().find(ItemClass);
+    return TypeORM.getManager().find(ItemClass, {relations: ["item_affixes"]});
   }
   
 }

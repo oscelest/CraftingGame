@@ -21,12 +21,14 @@ class PictologueApp extends App {
           base_type:  false,
           unique:     false,
           prophecy:   false,
+          item_affix: false,
         },
         find:       {
           item_class: false,
           base_type:  false,
           unique:     false,
           prophecy:   false,
+          item_affix: false,
         },
       },
       configuration: {
@@ -37,6 +39,7 @@ class PictologueApp extends App {
         prophecy:   [],
         base_type:  {},
         unique:     {},
+        item_affix: [],
       },
     };
   }
@@ -98,9 +101,6 @@ export const application: Application = {
       if (application.prepare.done.initializations) return;
       application.prepare.done.initializations = true;
       ipc.send("message", "initialize", "item_class", []);
-      ipc.send("message", "initialize", "base_type", []);
-      ipc.send("message", "initialize", "unique", []);
-      ipc.send("message", "initialize", "prophecy", []);
     },
     resources() {
       if (application.prepare.done.resources) return;
@@ -109,6 +109,7 @@ export const application: Application = {
       ipc.send("message", "find", "base_type", []);
       ipc.send("message", "find", "unique", []);
       ipc.send("message", "find", "prophecy", []);
+      ipc.send("message", "find", "item_affix", []);
     },
   },
 };

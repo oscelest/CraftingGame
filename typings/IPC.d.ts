@@ -1,4 +1,5 @@
 import BaseType from "../backend/entity/BaseType";
+import ItemAffix from "../backend/entity/ItemAffix";
 import ItemClass from "../backend/entity/ItemClass";
 import Prophecy from "../backend/entity/Prophecy";
 import Unique from "../backend/entity/Unique";
@@ -40,12 +41,14 @@ declare namespace IPC {
         item_class(this: IPC.Backend.This): Promise<boolean>
         unique(this: IPC.Backend.This): Promise<boolean>
         prophecy(this: IPC.Backend.This): Promise<boolean>
+        item_affix(this: IPC.Backend.This): Promise<boolean>
       },
       find: {
         base_type(this: IPC.Backend.This): Promise<BaseType[]>
         item_class(this: IPC.Backend.This): Promise<ItemClass[]>
         unique(this: IPC.Backend.This): Promise<Unique[]>
         prophecy(this: IPC.Backend.This): Promise<Prophecy[]>
+        item_affix(this: IPC.Backend.This): Promise<ItemAffix[]>
       }
       filter: {
         load(this: IPC.Backend.This): void
@@ -73,12 +76,14 @@ declare namespace IPC {
         item_class(this: IPC.Frontend.This, state: boolean): void
         unique(this: IPC.Frontend.This, state: boolean): void
         prophecy(this: IPC.Frontend.This, state: boolean): void
+        item_affix(this: IPC.Frontend.This, state: boolean): void
       }
       find: {
         base_type(this: IPC.Frontend.This, base_types: BaseType[]): void
         item_class(this: IPC.Frontend.This, item_classes: ItemClass[]): void
         unique(this: IPC.Frontend.This, uniques: Unique[]): void
         prophecy(this: IPC.Frontend.This, prophecies: Prophecy[]): void
+        item_affix(this: IPC.Frontend.This, item_affixes: ItemAffix[]): void
       }
       filter: {
         load(this: IPC.Frontend.This, filter: string): void

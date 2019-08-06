@@ -1,5 +1,6 @@
 import _ from "lodash";
 import BaseType from "../../backend/entity/BaseType";
+import ItemAffix from "../../backend/entity/ItemAffix";
 import ItemClass from "../../backend/entity/ItemClass";
 import Prophecy from "../../backend/entity/Prophecy";
 import Unique from "../../backend/entity/Unique";
@@ -24,6 +25,9 @@ const Methods: IPC.Frontend.Handlers["find"] = {
       ready: {find: {unique: uniques.length > 0}},
       data:  {unique: _.reduce(uniques, (r, v) => _.set(r, v.base_type.name, [...r[v.base_type.name] || [], v]), this.state.data.unique)},
     } as Global.State));
+  },
+  item_affix(item_affixes: ItemAffix[]): void {
+    this.setState(_.merge({}, this.state, {data: {item_affix: item_affixes}, ready: {find: {item_affix: item_affixes.length > 0}}} as Global.State));
   },
 };
 

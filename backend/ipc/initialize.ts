@@ -13,6 +13,9 @@ const Methods: IPC.Backend.Handlers["initialize"] = {
   async unique(): Promise<boolean> {
     return !!await (await import("../data/Unique")).default;
   },
+  async item_affix(): Promise<boolean> {
+    return !!await (await import("../data/ItemAffix")).default;
+  },
 };
 
 export default Methods;

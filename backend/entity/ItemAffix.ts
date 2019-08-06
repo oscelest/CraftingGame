@@ -6,18 +6,26 @@ import ItemClass from "./ItemClass";
 export default class ItemAffix {
   
   @TypeORM.PrimaryGeneratedColumn("uuid")
-  id: number;
+  id: string;
   
   @TypeORM.Column()
   name: string;
   
-  @TypeORM.ManyToMany(() => ItemClass, item_class => item_class.item_affixes)
+  @TypeORM.Column()
+  description: string;
+  
+  @TypeORM.ManyToMany(() => ItemClass, item_class => item_class.item_affixes, {cascade: ["insert", "update"]})
   @TypeORM.JoinTable({name: "item_class_affix"})
   item_classes: ItemClass[];
   
-  constructor(name: string, item_classes: ItemClass[]) {
+  constructor(name: string, description: string, item_classes: ItemClass[]) {
     this.name = name;
+    this.description = description;
     this.item_classes = item_classes;
+  }
+  
+  public static async find(): Promise<ItemAffix[]> {
+    return await TypeORM.getManager().find(ItemAffix, {relations: ["item_classes"]});
   }
   
 }
