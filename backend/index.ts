@@ -13,10 +13,10 @@ electron.app.on("ready", async () => {
   await electronNext("./frontend");
   
   const ipc_methods: IPC.Backend.Handlers = {
+    count:      (await import("./ipc/count")).default,
     filter:     (await import("./ipc/filter")).default,
     database:   (await import("./ipc/database")).default,
     initialize: (await import("./ipc/initialize")).default,
-    find:       (await import("./ipc/find")).default,
   };
   
   ipc.on("message", async (event, handler, method, params) => {

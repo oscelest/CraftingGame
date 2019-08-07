@@ -8,11 +8,7 @@ export default class IndexPage extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
   }
-  
-  // private load() {
-  //   ipc.send("message", "filter", "load", []);
-  // }
-  
+
   public render() {
     const block = new Block();
     

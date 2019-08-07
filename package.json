@@ -6,7 +6,7 @@
   "description": "An attempt at making an item filter builder.",
   "main": "backend/index.js",
   "scripts": {
-    "postinstall": "install-app-deps",
+    "postinstall": "electron-builder install-app-deps",
     "build-backend": "tsc -p ./backend/tsconfig.json -watch",
     "build-frontend": "next build frontend && next export frontend",
     "start": "electron .",
@@ -26,7 +26,7 @@
     "@types/react": "^16.8.24",
     "@types/react-dom": "^16.8.5",
     "@zeit/next-less": "^1.0.1",
-    "electron": "^6.0.0",
+    "electron": "^5.0.9",
     "electron-builder": "^21.2.0",
     "less": "^3.9.0",
     "next": "^9.0.3",
@@ -40,12 +40,12 @@
     "@types/fs-extra": "^8.0.0",
     "electron-is-dev": "^1.0.1",
     "electron-next": "^3.1.5",
-    "file-loader": "^4.0.0",
+    "file-loader": "^4.1.0",
     "file-type": "^12.1.0",
     "fs-extra": "^8.1.0",
-    "lodash": "^4.17.14",
+    "lodash": "^4.17.15",
     "sqlite3": "^4.0.9",
     "typeorm": "^0.2.18",
-    "url-loader": "^2.0.1"
+    "url-loader": "^2.1.0"
   }
 }

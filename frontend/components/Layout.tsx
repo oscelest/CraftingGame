@@ -1,4 +1,3 @@
-import _ from "lodash";
 import Head from "next/head";
 import * as React from "react";
 import {Global} from "../../typings/Global";
@@ -37,6 +36,9 @@ class Layout extends React.Component<Props, State> {
   }
   
   public render() {
+    const item_class_current = this.props.global.data.item_class.length;
+    const item_class_total = this.props.global.data_size.item_class;
+    
     return [
       <Head key="head">
         <title>My page title</title>
@@ -63,24 +65,12 @@ class Layout extends React.Component<Props, State> {
       </div>,
       <header id="header" key="header"/>,
       <main id="main" key="main">
-        {
-          !_.every(this.props.global.ready.connect) &&
-          <div>Connecting...</div>
-        }
-        {
-          _.every(this.props.global.ready.connect) && !_.every(this.props.global.ready.initialize) &&
-          <div>Initializing...</div>
-        }
-        {
-          _.every(this.props.global.ready.initialize) && !_.every(this.props.global.ready.find) &&
-          <div>Loading resources...</div>
-        }
-        {
-          _.every(_.map(this.props.global.ready, v => _.every(v))) && [
-            <Navigation key="navigation" global={this.props.global}/>,
-            this.props.children,
-          ]
-        }
+        {this.props.global.connections.database === false ? <span>Connecting to database...</span> : null}
+        {item_class_current < item_class_total ? <span>Loading {item_class_current} of {item_class_total} Item Classes...</span> : null}
+        {false && [
+          <Navigation key="navigation" global={this.props.global}/>,
+          this.props.children
+        ]}
       </main>,
       <footer id="footer" key="footer"/>,
     ];

@@ -1,6 +1,6 @@
+import _ from "lodash";
 import App, {Container} from "next/app";
 import * as React from "react";
-import Application from "../../typings/Application";
 import {Global} from "../../typings/Global";
 import IPC from "../../typings/IPC";
 import Layout from "../components/Layout";
@@ -12,44 +12,36 @@ class PictologueApp extends App {
   constructor(props: any) {
     super(props);
     this.state = {
-      ready:         {
-        connect:    {
-          database: false,
-        },
-        initialize: {
-          item_class: false,
-          base_type:  false,
-          unique:     false,
-          prophecy:   false,
-          item_affix: false,
-        },
-        find:       {
-          item_class: false,
-          base_type:  false,
-          unique:     false,
-          prophecy:   false,
-          item_affix: false,
-        },
+      ready:         false,
+      data:          {
+        item_class: [],
+        item_affix: [],
+        base_type:  [],
+        unique:     [],
+        prophecy:   [],
+      },
+      data_size:     {
+        item_class: 0,
+        item_affix: 0,
+        base_type:  0,
+        unique:     0,
+        prophecy:   0,
+      },
+      connections:   {
+        database: null
       },
       configuration: {
         maximized: false,
       },
-      data:          {
-        item_class: [],
-        prophecy:   [],
-        base_type:  {},
-        unique:     {},
-        item_affix: [],
-      },
     };
   }
   
-  public async componentDidMount() {
+  public async componentWillMount() {
     const ipc_methods: IPC.Frontend.Handlers = {
+      count:      (await import("../ipc/count")).default,
       filter:     (await import("../ipc/filter")).default,
       database:   (await import("../ipc/database")).default,
       initialize: (await import("../ipc/initialize")).default,
-      find:       (await import("../ipc/find")).default,
     };
     
     ipc.on("message", async (event, handler, method, params) => {
@@ -68,8 +60,17 @@ class PictologueApp extends App {
       console.log("IPC ERROR RENDERER", e, m, v);
     });
     
-    application.prepare.connections();
+    if (this.state.connections.database === null) {
+      this.setState(_.merge({}, this.state, {connections: {database: false}} as Global.State));
+      ipc.send("message", "database", "connect", []);
+    }
   }
+  
+  public componentWillUnmount(): void {
+    ipc.removeAllListeners("message");
+    ipc.removeAllListeners("error");
+  }
+  
   
   public render() {
     return (
@@ -85,31 +86,3 @@ class PictologueApp extends App {
 
 export default PictologueApp;
 export const ipc: IPC.Frontend = global.ipc;
-export const application: Application = {
-  prepare: {
-    done: {
-      connections:     false,
-      initializations: false,
-      resources:       false,
-    },
-    connections() {
-      if (application.prepare.done.connections) return;
-      application.prepare.done.connections = true;
-      ipc.send("message", "database", "connect", []);
-    },
-    initializations() {
-      if (application.prepare.done.initializations) return;
-      application.prepare.done.initializations = true;
-      ipc.send("message", "initialize", "item_class", []);
-    },
-    resources() {
-      if (application.prepare.done.resources) return;
-      application.prepare.done.resources = true;
-      ipc.send("message", "find", "item_class", []);
-      ipc.send("message", "find", "base_type", []);
-      ipc.send("message", "find", "unique", []);
-      ipc.send("message", "find", "prophecy", []);
-      ipc.send("message", "find", "item_affix", []);
-    },
-  },
-};

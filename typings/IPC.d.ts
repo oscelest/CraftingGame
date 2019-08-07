@@ -14,6 +14,7 @@ declare namespace IPC {
       type: MessageType,
       listener: (event: IPC.Backend.Event, handler: Handler, method: Method, params: Parameters<IPC.Backend.Handlers[Handler][Method]>) => void,
     ): this
+    removeAllListeners(channel: string): void
   }
   
   export interface Frontend {
@@ -27,6 +28,7 @@ declare namespace IPC {
       type: MessageType,
       listener: (event: IPC.Frontend.Event, handler: Handler, method: Method, params: Parameters<IPC.Frontend.Handlers[Handler][Method]>) => void,
     ): this
+    removeAllListeners(channel: string): void
   }
   
   export namespace Backend {
@@ -36,23 +38,28 @@ declare namespace IPC {
       database: {
         connect(this: IPC.Backend.This): Promise<boolean>
       }
+      count: {
+        item_class(this: IPC.Backend.This): Promise<number>
+        item_affix(this: IPC.Backend.This): Promise<number>
+        base_type(this: IPC.Backend.This): Promise<number>
+        unique(this: IPC.Backend.This): Promise<number>
+        prophecy(this: IPC.Backend.This): Promise<number>
+      }
       initialize: {
-        base_type(this: IPC.Backend.This): Promise<boolean>
-        item_class(this: IPC.Backend.This): Promise<boolean>
-        unique(this: IPC.Backend.This): Promise<boolean>
-        prophecy(this: IPC.Backend.This): Promise<boolean>
-        item_affix(this: IPC.Backend.This): Promise<boolean>
-      },
-      find: {
-        base_type(this: IPC.Backend.This): Promise<BaseType[]>
-        item_class(this: IPC.Backend.This): Promise<ItemClass[]>
-        unique(this: IPC.Backend.This): Promise<Unique[]>
-        prophecy(this: IPC.Backend.This): Promise<Prophecy[]>
-        item_affix(this: IPC.Backend.This): Promise<ItemAffix[]>
+        item_class(this: IPC.Backend.This): Promise<ItemClass | null>
+        item_affix(this: IPC.Backend.This): Promise<ItemAffix | null>
+        base_type(this: IPC.Backend.This): Promise<BaseType | null>
+        unique(this: IPC.Backend.This): Promise<Unique | null>
+        prophecy(this: IPC.Backend.This): Promise<Prophecy | null>
       }
       filter: {
         load(this: IPC.Backend.This): void
       }
+    }
+    
+    export interface InitializationResult {
+      index: number
+      length: number
     }
     
     export interface Event {
@@ -71,19 +78,19 @@ declare namespace IPC {
       database: {
         connect(this: IPC.Frontend.This, state: boolean): void
       }
-      initialize: {
-        base_type(this: IPC.Frontend.This, state: boolean): void
-        item_class(this: IPC.Frontend.This, state: boolean): void
-        unique(this: IPC.Frontend.This, state: boolean): void
-        prophecy(this: IPC.Frontend.This, state: boolean): void
-        item_affix(this: IPC.Frontend.This, state: boolean): void
+      count: {
+        item_class(this: IPC.Frontend.This, count: number): void
+        item_affix(this: IPC.Frontend.This, count: number): void
+        base_type(this: IPC.Frontend.This, count: number): void
+        unique(this: IPC.Frontend.This, count: number): void
+        prophecy(this: IPC.Frontend.This, count: number): void
       }
-      find: {
-        base_type(this: IPC.Frontend.This, base_types: BaseType[]): void
-        item_class(this: IPC.Frontend.This, item_classes: ItemClass[]): void
-        unique(this: IPC.Frontend.This, uniques: Unique[]): void
-        prophecy(this: IPC.Frontend.This, prophecies: Prophecy[]): void
-        item_affix(this: IPC.Frontend.This, item_affixes: ItemAffix[]): void
+      initialize: {
+        item_class(this: IPC.Frontend.This, state: ItemClass | null): void
+        item_affix(this: IPC.Frontend.This, state: ItemAffix | null): void
+        base_type(this: IPC.Frontend.This, result: BaseType | null): void
+        unique(this: IPC.Frontend.This, state: Unique | null): void
+        prophecy(this: IPC.Frontend.This, state: Prophecy | null): void
       }
       filter: {
         load(this: IPC.Frontend.This, filter: string): void

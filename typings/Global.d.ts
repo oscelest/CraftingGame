@@ -11,35 +11,27 @@ export namespace Global {
   }
   
   export interface State {
-    ready: {
-      connect: {
-        database: boolean
-      }
-      initialize: {
-        item_class: boolean
-        base_type: boolean
-        unique: boolean
-        prophecy: boolean
-        item_affix: boolean
-      }
-      find: {
-        item_class: boolean
-        base_type: boolean
-        unique: boolean
-        prophecy: boolean
-        item_affix: boolean
-      }
+    ready: boolean
+    connections: {
+      database: boolean | null
+    }
+    data_size: {
+      item_class: number
+      prophecy: number
+      base_type: number
+      unique: number
+      item_affix: number
+    }
+    data: {
+      item_class: ItemClass[]
+      prophecy: Prophecy[]
+      base_type: BaseType[]
+      unique: Unique[]
+      item_affix: ItemAffix[]
     }
     configuration: {
       maximized: boolean
     },
-    data: {
-      item_class: ItemClass[]
-      prophecy: Prophecy[]
-      base_type: {[item_class: string]: BaseType[]}
-      unique: {[base_type: string]: Unique[]}
-      item_affix: ItemAffix[]
-    }
   }
   
 }

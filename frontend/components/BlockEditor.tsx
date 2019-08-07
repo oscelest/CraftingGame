@@ -34,7 +34,7 @@ class BlockEditor extends React.Component<Props, State> {
   
   public render() {
     const item_classes = _.map(this.props.global.data.item_class, v => v.name);
-    const base_types = _.map(_.flatten(_.values(_.pick(this.props.global.data.base_type, this.state.item_class.values))), v => v.name);
+    const base_types = [] as any;
     const prophecies = _.map(this.props.global.data.prophecy, v => v.name);
     const affixes = ["Tyrannical", "Merciless"];
     
