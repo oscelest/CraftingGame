@@ -1,10 +1,11 @@
 import * as TypeORM from "typeorm";
+import Entity from "../classes/Entity";
 import ItemClass from "./ItemClass";
 import Unique from "./Unique";
 
 @TypeORM.Entity()
 @TypeORM.Unique("name", ["name"])
-export default class Prophecy {
+export default class Prophecy extends Entity {
   
   @TypeORM.PrimaryGeneratedColumn("uuid")
   id: number;
@@ -20,6 +21,7 @@ export default class Prophecy {
   uniques: Unique[];
   
   constructor(name: string, item_class: ItemClass) {
+    super();
     this.name = name;
     this.item_class = item_class;
   }

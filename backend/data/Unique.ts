@@ -1,6 +1,11 @@
+import BaseType from "../entity/BaseType";
 import Unique from "../entity/Unique";
 
-export default [] as (() => Promise<Unique>)[];
+export default [
+  async () => await new Unique("Araku Tiki", await BaseType.findOneByName("Coral Amulet")).save(),
+  async () => await new Unique("Ngamahu Tiki", await BaseType.findOneByName("Coral Amulet")).save(),
+  async () => await new Unique("The Primordial Chain", await BaseType.findOneByName("Coral Amulet")).save(),
+];
 
 // import * as TypeORM from "typeorm";
 // import BaseType from "../entity/BaseType";
@@ -16,9 +21,7 @@ export default [] as (() => Promise<Unique>)[];
 //
 //   manager.findOneOrFail(BaseType, {where: {name: "Coral Amulet"}})
 //   .then(async base_type => Promise.all([
-//     TypeORM.createQueryBuilder().insert().orIgnore().into(Unique).values({name: "Araku Tiki", base_type: base_type}).execute(),
-//     TypeORM.createQueryBuilder().insert().orIgnore().into(Unique).values({name: "Ngamahu Tiki", base_type: base_type}).execute(),
-//     TypeORM.createQueryBuilder().insert().orIgnore().into(Unique).values({name: "The Primordial Chain", base_type: base_type}).execute(),
+
 //   ])),
 //   manager.findOneOrFail(BaseType, {where: {name: "Paua Amulet"}})
 //   .then(async base_type => Promise.all([

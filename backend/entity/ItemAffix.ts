@@ -1,9 +1,10 @@
 import * as TypeORM from "typeorm";
+import Entity from "../classes/Entity";
 import ItemClass from "./ItemClass";
 
 @TypeORM.Entity()
 @TypeORM.Unique("name", ["name"])
-export default class ItemAffix {
+export default class ItemAffix extends Entity {
   
   @TypeORM.PrimaryGeneratedColumn("uuid")
   id: string;
@@ -19,6 +20,7 @@ export default class ItemAffix {
   item_classes: ItemClass[];
   
   constructor(name: string, description: string, item_classes: ItemClass[]) {
+    super();
     this.name = name;
     this.description = description;
     this.item_classes = item_classes;

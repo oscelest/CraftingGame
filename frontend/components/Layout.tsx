@@ -37,7 +37,16 @@ class Layout extends React.Component<Props, State> {
   
   public render() {
     const item_class_current = this.props.global.data.item_class.length;
+    const item_affix_current = this.props.global.data.item_affix.length;
+    const base_type_current = this.props.global.data.base_type.length;
+    const unique_current = this.props.global.data.unique.length;
+    const prophecy_current = this.props.global.data.prophecy.length;
+    
     const item_class_total = this.props.global.data_size.item_class;
+    const item_affix_total = this.props.global.data_size.item_affix;
+    const base_type_total = this.props.global.data_size.base_type;
+    const unique_total = this.props.global.data_size.unique;
+    const prophecy_total = this.props.global.data_size.prophecy;
     
     return [
       <Head key="head">
@@ -67,9 +76,13 @@ class Layout extends React.Component<Props, State> {
       <main id="main" key="main">
         {this.props.global.connections.database === false ? <span>Connecting to database...</span> : null}
         {item_class_current < item_class_total ? <span>Loading {item_class_current} of {item_class_total} Item Classes...</span> : null}
+        {item_affix_current < item_affix_total ? <span>Loading {item_affix_current} of {item_affix_total} Item Affixes...</span> : null}
+        {base_type_current < base_type_total ? <span>Loading {base_type_current} of {base_type_total} Base Types...</span> : null}
+        {unique_current < unique_total ? <span>Loading {unique_current} of {unique_total} Uniques...</span> : null}
+        {prophecy_current < prophecy_total ? <span>Loading {prophecy_current} of {prophecy_total} Prophecies...</span> : null}
         {false && [
           <Navigation key="navigation" global={this.props.global}/>,
-          this.props.children
+          this.props.children,
         ]}
       </main>,
       <footer id="footer" key="footer"/>,

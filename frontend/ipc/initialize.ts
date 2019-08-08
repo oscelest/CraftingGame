@@ -9,18 +9,21 @@ import {ipc} from "../pages/_app";
 
 const Methods: IPC.Frontend.Handlers["initialize"] = {
   item_class(element: ItemClass): void {
-    // if (!element) return ipc.send("message", "initialize", "item_affix", []);
-    if (!element) return;
+    if (!element) return ipc.send("message", "count", "item_affix", []);
     this.setState(_.merge({}, this.state, {data: {item_class: _.concat(this.state.data.item_class || [], element)}}));
-    setTimeout(() => ipc.send("message", "initialize", "item_class", []), 500);
+    ipc.send("message", "initialize", "item_class", []);
   },
   item_affix(element: ItemAffix): void {
-    if (!element) return;
+    if (!element) return ipc.send("message", "count", "base_type", []);
     this.setState(_.merge({}, this.state, {data: {item_affix: _.concat(this.state.data.item_affix || [], element)}}));
     ipc.send("message", "initialize", "item_affix", []);
   },
   base_type(element: BaseType): void {
-    if (!element) return;
+    if (!element) {
+      ipc.send("message", "count", "unique", []);
+      ipc.send("message", "count", "prophecy", []);
+      return;
+    }
     this.setState(_.merge({}, this.state, {data: {base_type: _.concat(this.state.data.base_type || [], element)}}));
     ipc.send("message", "initialize", "base_type", []);
   },

@@ -32,4 +32,12 @@ export default class ItemClass extends Entity{
     return TypeORM.getManager().find(ItemClass, {relations: ["item_affixes"]});
   }
   
+  public static async findByName(names: string | string[]) {
+    return TypeORM.getManager().find(ItemClass, {where: {name: Array.isArray(names) ? TypeORM.In(names) : names}});
+  }
+  
+  public static async findOneByName(name: string) {
+    return TypeORM.getManager().findOneOrFail(ItemClass, {where: {name: name}});
+  }
+  
 }

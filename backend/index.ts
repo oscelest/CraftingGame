@@ -20,7 +20,7 @@ electron.app.on("ready", async () => {
   };
   
   ipc.on("message", async (event, handler, method, params) => {
-    console.log("[Backend] Message received", handler, method, params);
+    // console.log("[Backend] Message received", handler, method, params);
     try {
       const response = await ipc_methods[handler][method].apply(event, params);
       if (response !== undefined) event.reply("message", handler, method, [response]);
