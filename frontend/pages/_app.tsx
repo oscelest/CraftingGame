@@ -1,9 +1,9 @@
-import _ from "lodash";
 import App, {Container} from "next/app";
 import * as React from "react";
 import {Global} from "../../typings/Global";
 import IPC from "../../typings/IPC";
 import Layout from "../components/Layout";
+import _ from "lodash";
 
 class PictologueApp extends App {
   
@@ -36,7 +36,7 @@ class PictologueApp extends App {
     };
   }
   
-  public async componentWillMount() {
+  public async componentDidMount() {
     const ipc_methods: IPC.Frontend.Handlers = {
       count:      (await import("../ipc/count")).default,
       filter:     (await import("../ipc/filter")).default,
@@ -45,7 +45,7 @@ class PictologueApp extends App {
     };
     
     ipc.on("message", async (event, handler, method, params) => {
-      console.log(event, handler, method, params);
+      // console.log(event, handler, method, params);
       try {
         const response = await ipc_methods[handler][method].apply({state: this.state, setState: (state: Global.State) => this.setState(state)}, params);
         if (response !== undefined) event.sender.send("message", handler, method, [response]);

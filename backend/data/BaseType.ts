@@ -55,7 +55,6 @@ export default [
   async () => await new BaseType("Terror Claw", await ItemClass.findOneByName("Claws")).save(),
   async () => await new BaseType("Gemini Claw", await ItemClass.findOneByName("Claws")).save(),
   
-  
   async () => await new BaseType("Glass Shank", await ItemClass.findOneByName("Daggers")).save(),
   async () => await new BaseType("Skinning Knife", await ItemClass.findOneByName("Daggers")).save(),
   async () => await new BaseType("Carving Knife", await ItemClass.findOneByName("Daggers")).save(),
